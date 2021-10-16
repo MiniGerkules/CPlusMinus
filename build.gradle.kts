@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.31")
+    implementation("org.reflections:reflections:0.10.1")
 }
 
 tasks.test {
