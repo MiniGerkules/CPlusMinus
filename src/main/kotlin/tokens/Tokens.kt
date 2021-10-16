@@ -3,7 +3,7 @@ package tokens
 /**
  * Class describing the type of token <IntNumber>
  *
- * Integer - a sequence of characters, where the sign comes first
+ * Integer -- a sequence of characters, where the sign comes first
  * plus or minus, after them the number from 1 to 9, and in all other places the numbers
  * from 0 to 9
  * Examples of numbers: 100; -100; -0; +0
@@ -20,7 +20,7 @@ class Number : TokenType(Regex("([-+]?\\s*([1-9]\\d*|0))")) {
 /**
  * Class describing the type of token <FloatNumber>
  *
- * Fractional number - a sequence of characters with a digit in the first place
+ * Fractional number -- a sequence of characters with a digit in the first place
  * from 0 to 9 (if 0 is in the first place, there must be a period after it),
  * and on all other digits from 0 to 9. A fractional number can contain only
  * one point
@@ -37,6 +37,7 @@ class FloatNumber : TokenType(Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))"
     override fun toString(): String = "FloatNumber"
 }
 
+//Examples: abs; sda_; _dsad9; a090_; as_09_dsa
 //class Variable
 
 //class ExpEnd
