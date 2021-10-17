@@ -76,7 +76,7 @@ class ExpEnd : TokenType(Regex(";")) {
 /**
  * Class describing the type of token <Space&gt
  *
- * Spaces in the Jer programming language are used to separate words, as
+ * Spaces in the C+- programming language are used to separate words, as
  * well as to increase the readability of the code.
  * Correct: ' ', '\t', '\n'
  */
@@ -107,7 +107,7 @@ class Assign : TokenType(Regex("=")) {
 /**
  * Class describing the type of token <Plus&gt
  *
- * The '+' character is used to add valid Jer expressions.
+ * The '+' character is used to add valid C+- expressions.
  * Also, the '+' symbol can mean a unary plus.
  * Example 1: int32 a = 1232 + 32314;
  * Example 1: int32 a = +7;
@@ -124,7 +124,7 @@ class Plus : TokenType(Regex("\\+")) {
 /**
  * Class describing the type of token <Minus&gt
  *
- * The '-' character is used to subtract valid Jer expressions.
+ * The '-' character is used to subtract valid C+- expressions.
  * Also, the '-' symbol can mean a unary minus.
  * Example 1: int32 a = 1232 - 32314;
  * Example 2: int32 a = -5;

@@ -3,7 +3,7 @@ package lexer
 import tokens.TokenType
 
 /**
- * The class representing the lexical analyzer of the Jer language.
+ * The class representing the lexical analyzer of the C+- language.
  *
  * @property pathToFileWithCode path to source code file
  * @property currentPosition the current position of the lexer in the code
