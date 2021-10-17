@@ -2,7 +2,7 @@
 ## The purpose of creating a language
 The Jer programming language is being developed as an individual project
 within the framework of the course "Programming in the Kotlin language" of
-the St. Petersburg State Electrotechnical University. The goal of the project
+the Saint Petersburg Electrotechnical University «LETI». The goal of the project
 is to study the principles of programming languages, the main stages of code
 translation and the operation of the JVM.
 
