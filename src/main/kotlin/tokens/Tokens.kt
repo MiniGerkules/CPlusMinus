@@ -34,11 +34,30 @@ class FloatNumber : TokenType(Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))"
      * The method returns a textual representation of the class name
      * @return Class name on string.
      */
-    override fun toString(): String = "FloatNumber"
+        override fun toString(): String = "FloatNumber"
 }
 
-//Examples: abs; sda_; _dsad9; a090_; as_09_dsa
-//class Variable
+/**
+ * Class that describes a name of any variable.
+ * This name mustn't:
+ *  1) start from numbers or punctuation marks;
+ *  2) have any punctuation marks but underline '_';
+ * This name must:
+ *  1) start from letters in any case (lower, upper) or underline;
+ *  2) have any numbers in any place but start.
+ *
+ * Correct: firstNumber, Second_number, _third_, four4, five5five
+ * Incorrect: 1first, second.number
+ */
+@PossibleToken
+class Variable : TokenType(Regex("([_a-zA-Z])\\w*")) {
+    /**
+     * The method returns a textual representation of the variable name.
+     * @return Class name on string.
+     */
+    override fun toString(): String = regex.toString()
+
+}
 
 //class ExpEnd
 
