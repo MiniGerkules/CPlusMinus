@@ -34,7 +34,7 @@ class FloatNumber : TokenType(Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))"
      * The method returns a textual representation of the class name
      * @return Class name on string.
      */
-        override fun toString(): String = "FloatNumber"
+     override fun toString(): String = "FloatNumber"
 }
 
 /**
@@ -56,10 +56,22 @@ class Variable : TokenType(Regex("([_a-zA-Z])\\w*")) {
      * @return Class name on string.
      */
     override fun toString(): String = regex.toString()
-
 }
 
-//class ExpEnd
+/**
+ * Class that describes the end of expression.
+ * In this project, every expression ends with a ';'
+ *
+ * Example: FloatNumber a = 1.0;
+ */
+@PossibleToken
+class ExpEnd : TokenType(Regex(";")) {
+    /**
+     * The method returns a textual representation of the expression.
+     * @return Class name on string.
+     */
+    override fun toString(): String = regex.toString()
+}
 
 //class Space
 
