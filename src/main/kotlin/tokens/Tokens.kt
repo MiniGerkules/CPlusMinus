@@ -1,7 +1,7 @@
 package tokens
 
 /**
- * Class describing the type of token <IntNumber>
+ * Class describing the type of token <IntNumber&gt
  *
  * Integer -- a sequence of characters, where the sign comes first
  * plus or minus, after them the number from 1 to 9, and in all other places the numbers
@@ -9,7 +9,7 @@ package tokens
  * Examples of numbers: 100; -100; -0; +0.
  */
 @PossibleToken
-class Number : TokenType(Regex("([-+]?\\s*([1-9]\\d*|0))")) {
+class IntNumber : TokenType(Regex("([-+]?\\s*([1-9]\\d*|0))")) {
     /**
      * The method returns a textual representation of the class name
      * @return Class name on string.
@@ -18,7 +18,7 @@ class Number : TokenType(Regex("([-+]?\\s*([1-9]\\d*|0))")) {
 }
 
 /**
- * Class describing the type of token <FloatNumber>
+ * Class describing the type of token <FloatNumber&gt
  *
  * Fractional number -- a sequence of characters with a digit in the first place
  * from 0 to 9 (if 0 is in the first place, there must be a period after it),
@@ -55,7 +55,7 @@ class Variable : TokenType(Regex("([_a-zA-Z])\\w*")) {
      * The method returns a textual representation of the variable name.
      * @return Class name on string.
      */
-    override fun toString(): String = regex.toString()
+    override fun toString(): String = "Variable"
 }
 
 /**
@@ -70,16 +70,73 @@ class ExpEnd : TokenType(Regex(";")) {
      * The method returns a textual representation of the expression.
      * @return Class name on string.
      */
-    override fun toString(): String = regex.toString()
+    override fun toString(): String = "ExpEnd"
 }
 
-//class Space
+/**
+ * Class describing the type of token <Space&gt
+ *
+ * Spaces in the Jer programming language are used to separate words, as
+ * well as to increase the readability of the code.
+ * Correct: ' ', '\t', '\n'
+ */
+@PossibleToken
+class Space : TokenType(Regex("[ \t\n]+")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Space"
+}
 
-//class Assign
+/**
+ * Class describing the type of token <Assign&gt
+ *
+ * The '=' symbol is used to assign a value to a variable.
+ * Example: int32 a = 5;
+ */
+@PossibleToken
+class Assign : TokenType(Regex("=")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Assign"
+}
 
-//class Plus
+/**
+ * Class describing the type of token <Plus&gt
+ *
+ * The '+' character is used to add valid Jer expressions.
+ * Also, the '+' symbol can mean a unary plus.
+ * Example 1: int32 a = 1232 + 32314;
+ * Example 1: int32 a = +7;
+ */
+@PossibleToken
+class Plus : TokenType(Regex("\\+")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Plus"
+}
 
-//class Minus
+/**
+ * Class describing the type of token <Minus&gt
+ *
+ * The '-' character is used to subtract valid Jer expressions.
+ * Also, the '-' symbol can mean a unary minus.
+ * Example 1: int32 a = 1232 - 32314;
+ * Example 2: int32 a = -5;
+ */
+@PossibleToken
+class Minus : TokenType(Regex("-")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Minus"
+}
 
 //class Multiply
 
