@@ -6,7 +6,7 @@ package tokens
  * Integer -- a sequence of characters, where the sign comes first
  * plus or minus, after them the number from 1 to 9, and in all other places the numbers
  * from 0 to 9
- * Examples of numbers: 100; -100; -0; +0
+ * Examples of numbers: 100; -100; -0; +0.
  */
 @PossibleToken
 class Number : TokenType(Regex("([-+]?\\s*([1-9]\\d*|0))")) {
