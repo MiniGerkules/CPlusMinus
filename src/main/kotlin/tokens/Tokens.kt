@@ -50,12 +50,12 @@ class FloatNumber : TokenType(Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))"
  * Incorrect: 1first, second.number
  */
 @PossibleToken
-class Variable : TokenType(Regex("([_a-zA-Z])\\w*")) {
+class Identifier : TokenType(Regex("([_a-zA-Z])\\w*")) {
     /**
      * The method returns a textual representation of the variable name.
      * @return Class name on string.
      */
-    override fun toString(): String = "Variable"
+    override fun toString(): String = "Identifier"
 }
 
 /**
@@ -138,8 +138,47 @@ class Minus : TokenType(Regex("-")) {
     override fun toString(): String = "Minus"
 }
 
-//class Multiply
+/**
+ * Class describing the type of token <Multiply&gt
+ *
+ * The '+' character is used to subtract valid C+- expressions.
+ * Example 1: int32 a = 5 * 3;
+ */
+@PossibleToken
+class Multiply : TokenType(Regex("\\*")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Multiply"
+}
 
-//class Divide
+/**
+ * Class describing the type of token <Divide&gt
+ *
+ * The '/' character is used to subtract valid C+- expressions.
+ * Example 1: int32 a = 6 / 2;
+ */
+@PossibleToken
+class Divide : TokenType(Regex("/")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Divide"
+}
 
-//class Remainder
+/**
+ * Class describing the type of token <Modulus&gt
+ *
+ * The '%' character is used to subtract valid C+- expressions.
+ * Example 1: int32 a = 5 % 3;
+ */
+@PossibleToken
+class Modulus : TokenType(Regex("%")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Modulus"
+}
