@@ -1,5 +1,7 @@
 package lexer
 
+import org.reflections.Reflections
+import tokens.PossibleToken
 import tokens.TokenType
 
 /**
@@ -9,15 +11,11 @@ import tokens.TokenType
  * @property currentPosition the current position of the lexer in the code
  * @property tokensList list of all possible language tokens
  */
-class Lexer(val pathToFileWithCode: String) {
-    var currentPosition: Int = 0
-    var tokensList: MutableList<TokenType> = mutableListOf()
+class Lexer(private val pathToFileWithCode: String) {
+    private var currentPosition: Int = 0
+    private var tokensList: MutableList<Class<*>>
+    init {
+        val reflections = Reflections("tokens")
+        tokensList = reflections.getTypesAnnotatedWith(PossibleToken::class.java).toMutableList()
+    }
 }
-
-
-
-
-
-
-
-
