@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    implementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.31")
     implementation("org.reflections:reflections:0.10.1")
 }
