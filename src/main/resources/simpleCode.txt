@@ -1,0 +1,4 @@
+int32 main() {
+    print("Hello! I'm C+-");
+    return 0;
+}
