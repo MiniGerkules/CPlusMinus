@@ -1,7 +1,7 @@
 package tokens
 
 /**
- * Base class for all possible token types
+ * Basic class for all possible token types
  *
  * @property regex the regular expression specifying the token
  */

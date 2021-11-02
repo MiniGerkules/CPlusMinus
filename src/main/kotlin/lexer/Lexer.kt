@@ -35,7 +35,7 @@ class Lexer(private val pathToFileWithCode: String) {
     /**
      * The method parses the code from the file from the file.
      *
-     * @exception FileNotFoundException throws when the path doesn't
+     * @exception FileNotFoundException throws when the path is not found (or doesn't exist)
      * @exception IllegalArgumentException throws when the lexer can't define the token
      */
     fun lexicalAnalysis(): List<Token> {
