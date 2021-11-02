@@ -182,3 +182,48 @@ class Modulus : TokenType(Regex("%")) {
      */
     override fun toString(): String = "Modulus"
 }
+
+/**
+ * Class describing the type of token <Int32&gt
+ *
+ * int32 is a 4 bytes integer number.
+ * Example 1: int32 a = 5 % 3;
+ */
+@PossibleToken
+class Int32 : TokenType(Regex("int32")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Int32"
+}
+
+/**
+ * Class describing the type of token <Float32&gt
+ *
+ * float32 is a 4 bytes floating point number.
+ * Example 1: float32 a = 0.003;
+ */
+@PossibleToken
+class Float32 : TokenType(Regex("float32")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Float32"
+}
+
+/**
+ * Class describing the type of token <Char&gt
+ *
+ * char is a 1 byte character.
+ * Example 1: char a = 'a';
+ */
+@PossibleToken
+class Char : TokenType(Regex("char")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Char"
+}
