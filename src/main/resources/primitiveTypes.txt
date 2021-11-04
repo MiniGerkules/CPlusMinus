@@ -1,0 +1,6 @@
+int32 variable1 = 12;
+float32 variable2 = 0.009;
+char variable3 = 'o';
+
+int32 fun1(int32 a, int32 b) { return a + b; }
+void fun2() { print("Hello"); }
