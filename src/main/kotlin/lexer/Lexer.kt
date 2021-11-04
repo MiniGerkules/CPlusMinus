@@ -39,10 +39,12 @@ class Lexer(private val pathToFileWithCode: String) {
      * @exception IllegalArgumentException throws when the lexer can't define the token
      */
     fun lexicalAnalysis(): List<Token> {
-        if (!File(pathToFileWithCode).isFile)
+        val file = File(pathToFileWithCode)
+
+        if (!file.isFile)
             throw FileNotFoundException("Can't find the file by $pathToFileWithCode")
 
-        code = File(pathToFileWithCode).readText()
+        code = file.readText()
         while (nextToken());
 
         return tokensList.filter { it.type.toString() != "Space" }
