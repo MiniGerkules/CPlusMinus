@@ -90,6 +90,22 @@ class Space : TokenType(Regex("[ \t\n]+")) {
 }
 
 /**
+ * Class describing the type of token <Return&gt
+ *
+ * return finishes any program or function, returning variable,
+ * number, expression etc.
+ * Example: return 0;
+ */
+@PossibleToken
+class Return : TokenType(Regex("return")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Return"
+}
+
+/**
  * Class describing the type of token <Assign&gt
  *
  * The '=' symbol is used to assign a value to a variable.
