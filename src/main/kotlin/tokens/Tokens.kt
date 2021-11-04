@@ -200,6 +200,51 @@ class Modulus : TokenType(Regex("%")) {
 }
 
 /**
+ * Class describing the type of token <Not&gt
+ *
+ * The '!' character is used to represent a not- expression.
+ * Example 1: if (i != 0) { action };
+ */
+@PossibleToken
+class Not : TokenType(Regex("!")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Not"
+}
+
+/**
+ * Class describing the type of token <MoreThan&gt
+ *
+ * The '>' character is used to represent a comparing expression.
+ * Example 1: if (i > 0) { action };
+ */
+@PossibleToken
+class MoreThan : TokenType(Regex(">")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = ">"
+}
+
+/**
+ * Class describing the type of token <LessThan&gt
+ *
+ * The '<' character is used to represent a comparing expression.
+ * Example 1: if (i < 0) { action };
+ */
+@PossibleToken
+class LessThan : TokenType(Regex("<")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "<"
+}
+
+/**
  * Class describing the type of token <Void&gt
  *
  * void is a function type that returns nothing.
@@ -317,4 +362,65 @@ class EndBlock : TokenType(Regex("}")) {
      * @return Class name on string.
      */
     override fun toString(): String = "EndBlock"
+}
+
+/**
+ * Class describing the type of token <If&gt
+ *
+ * if is a condition check
+ * Example 1: if (a == b) { action };
+ */
+@PossibleToken
+class If : TokenType(Regex("if")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "If"
+}
+
+/**
+ * Class describing the type of token <Else&gt
+ *
+ * else is another way if condition doesn't meet the condition
+ * Example 1: if (a == b) { action } else { other action };
+ */
+@PossibleToken
+class Else : TokenType(Regex("else")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Else"
+}
+
+/**
+ * Class describing the type of token <While&gt
+ *
+ * while is a loop that goes until the end of condition
+ * Example 1: while (i != 0) { action };
+ */
+@PossibleToken
+class While : TokenType(Regex("while")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "While"
+}
+
+/**
+ * Class describing the type of token <For&gt
+ *
+ * for is a loop that goes until the end of condition
+ * but with starting number and a given step
+ * Example 1: for (i = 0; i < 10; i = i + 1) { action };
+ */
+@PossibleToken
+class For : TokenType(Regex("for")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "For"
 }
