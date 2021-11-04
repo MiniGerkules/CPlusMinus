@@ -184,6 +184,21 @@ class Modulus : TokenType(Regex("%")) {
 }
 
 /**
+ * Class describing the type of token <Void&gt
+ *
+ * void is a function type that returns nothing.
+ * Example 1: void helloWorld();
+ */
+@PossibleToken
+class Void : TokenType(Regex("void")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "Void"
+}
+
+/**
  * Class describing the type of token <Int32&gt
  *
  * int32 is a 4 bytes integer number.
