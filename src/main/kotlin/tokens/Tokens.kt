@@ -227,3 +227,33 @@ class Char : TokenType(Regex("char")) {
      */
     override fun toString(): String = "Char"
 }
+
+/**
+ * Class describing the type of token <Left Bracket&gt
+ *
+ * Left bracket means that the expression inside starts.
+ * Example 1: if (a == b);
+ */
+@PossibleToken
+class LBracket : TokenType(Regex("\\(")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "LBracket"
+}
+
+/**
+ * Class describing the type of token <Right Bracket&gt
+ *
+ * Left bracket means that the expression inside ends.
+ * Example 1: if (a == b);
+ */
+@PossibleToken
+class RBracket : TokenType(Regex("\\)")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "RBracket"
+}
