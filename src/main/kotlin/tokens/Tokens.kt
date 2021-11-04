@@ -257,3 +257,33 @@ class RBracket : TokenType(Regex("\\)")) {
      */
     override fun toString(): String = "RBracket"
 }
+
+/**
+ * Class describing the type of token <Start Block&gt
+ *
+ * This Bracket type means that block of code is started
+ * Example 1: if (a == b) { action };
+ */
+@PossibleToken
+class StartBlock : TokenType(Regex("\\{")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "StartBlock"
+}
+
+/**
+ * Class describing the type of token <End Block&gt
+ *
+ * This Bracket type means that block of code is finished
+ * Example 1: if (a == b) { action };
+ */
+@PossibleToken
+class EndBlock : TokenType(Regex("}")) {
+    /**
+     * The method returns a textual representation of the class name
+     * @return Class name on string.
+     */
+    override fun toString(): String = "EndBlock"
+}
