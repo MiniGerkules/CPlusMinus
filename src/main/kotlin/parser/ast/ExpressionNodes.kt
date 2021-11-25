@@ -10,3 +10,17 @@ import java.util.*
 class MainFunNode: ExpressionNode() {
     override val nodes: MutableList<ASTNode> = mutableListOf()
 }
+
+/**
+ * The class defines the node of the AST that describes binary operations
+ */
+class BinaryOperationNode: ExpressionNode() {
+    override val nodes: MutableList<ASTNode> = mutableListOf()
+}
+
+/**
+ * The class defines the node of the AST that describes unary operations
+ */
+class UnaryOperatorNode: ExpressionNode() {
+    override val nodes: MutableList<ASTNode> = mutableListOf()
+}
