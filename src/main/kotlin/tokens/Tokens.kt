@@ -9,12 +9,8 @@ package tokens
  * Examples of numbers: 100; -100; -0; +0.
  */
 @PossibleToken
-class IntNumber : TokenType(Regex("([-+]?\\s*([1-9]\\d*|0))")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "IntNumber"
+class IntNumber : TokenType() {
+    override val regex: Regex = Regex("([-+]?\\s*([1-9]\\d*|0))")
 }
 
 /**
@@ -29,12 +25,8 @@ class IntNumber : TokenType(Regex("([-+]?\\s*([1-9]\\d*|0))")) {
  * Examples of non-numbers: 0000.00
  */
 @PossibleToken
-class FloatNumber : TokenType(Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-     override fun toString(): String = "FloatNumber"
+class FloatNumber : TokenType() {
+    override val regex: Regex = Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))")
 }
 
 /**
@@ -50,12 +42,8 @@ class FloatNumber : TokenType(Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))"
  * Incorrect: 1first, second.number
  */
 @PossibleToken
-class Identifier : TokenType(Regex("([_a-zA-Z])\\w*")) {
-    /**
-     * The method returns a textual representation of the variable name.
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Identifier"
+class Identifier : TokenType() {
+    override val regex: Regex = Regex("([_a-zA-Z])\\w*")
 }
 
 /**
@@ -65,12 +53,8 @@ class Identifier : TokenType(Regex("([_a-zA-Z])\\w*")) {
  * Example: FloatNumber a = 1.0;
  */
 @PossibleToken
-class ExpEnd : TokenType(Regex(";")) {
-    /**
-     * The method returns a textual representation of the expression.
-     * @return Class name on string.
-     */
-    override fun toString(): String = "ExpEnd"
+class ExpEnd : TokenType() {
+    override val regex: Regex = Regex(";")
 }
 
 /**
@@ -81,12 +65,8 @@ class ExpEnd : TokenType(Regex(";")) {
  * Correct: ' ', '\t', '\n'
  */
 @PossibleToken
-class Space : TokenType(Regex("[ \t\n]+")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Space"
+class Space : TokenType() {
+    override val regex: Regex = Regex("[ \t\n]+")
 }
 
 /**
@@ -97,12 +77,8 @@ class Space : TokenType(Regex("[ \t\n]+")) {
  * Example: return 0;
  */
 @PossibleToken
-class Return : TokenType(Regex("return")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Return"
+class Return : TokenType() {
+    override val regex: Regex = Regex("return")
 }
 
 /**
@@ -112,12 +88,8 @@ class Return : TokenType(Regex("return")) {
  * Example: int32 a = 5;
  */
 @PossibleToken
-class Assign : TokenType(Regex("=")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Assign"
+class Assign : TokenType() {
+    override val regex: Regex = Regex("=")
 }
 
 /**
@@ -129,12 +101,8 @@ class Assign : TokenType(Regex("=")) {
  * Example 1: int32 a = +7;
  */
 @PossibleToken
-class Plus : TokenType(Regex("\\+")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Plus"
+class Plus : TokenType() {
+    override val regex: Regex = Regex("\\+")
 }
 
 /**
@@ -146,12 +114,8 @@ class Plus : TokenType(Regex("\\+")) {
  * Example 2: int32 a = -5;
  */
 @PossibleToken
-class Minus : TokenType(Regex("-")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Minus"
+class Minus : TokenType() {
+    override val regex: Regex = Regex("-")
 }
 
 /**
@@ -161,12 +125,8 @@ class Minus : TokenType(Regex("-")) {
  * Example 1: int32 a = 5 * 3;
  */
 @PossibleToken
-class Multiply : TokenType(Regex("\\*")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Multiply"
+class Multiply : TokenType() {
+    override val regex: Regex = Regex("\\*")
 }
 
 /**
@@ -176,12 +136,8 @@ class Multiply : TokenType(Regex("\\*")) {
  * Example 1: int32 a = 6 / 2;
  */
 @PossibleToken
-class Divide : TokenType(Regex("/")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Divide"
+class Divide : TokenType() {
+    override val regex: Regex = Regex("/")
 }
 
 /**
@@ -191,12 +147,8 @@ class Divide : TokenType(Regex("/")) {
  * Example 1: int32 a = 5 % 3;
  */
 @PossibleToken
-class Modulus : TokenType(Regex("%")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Modulus"
+class Modulus : TokenType() {
+    override val regex: Regex = Regex("%")
 }
 
 /**
@@ -206,12 +158,8 @@ class Modulus : TokenType(Regex("%")) {
  * Example 1: if (i != 0) { action };
  */
 @PossibleToken
-class Not : TokenType(Regex("!")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Not"
+class Not : TokenType() {
+    override val regex: Regex = Regex("!")
 }
 
 /**
@@ -221,12 +169,8 @@ class Not : TokenType(Regex("!")) {
  * Example 1: if (i > 0) { action };
  */
 @PossibleToken
-class MoreThan : TokenType(Regex(">")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = ">"
+class MoreThan : TokenType() {
+    override val regex: Regex = Regex(">")
 }
 
 /**
@@ -236,12 +180,8 @@ class MoreThan : TokenType(Regex(">")) {
  * Example 1: if (i < 0) { action };
  */
 @PossibleToken
-class LessThan : TokenType(Regex("<")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "<"
+class LessThan : TokenType() {
+    override val regex: Regex = Regex("<")
 }
 
 /**
@@ -251,12 +191,8 @@ class LessThan : TokenType(Regex("<")) {
  * Example 1: void helloWorld();
  */
 @PossibleToken
-class Void : TokenType(Regex("void")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Void"
+class Void : PrimitiveType() {
+    override val regex: Regex = Regex("void")
 }
 
 /**
@@ -266,12 +202,8 @@ class Void : TokenType(Regex("void")) {
  * Example 1: int32 a = 5 % 3;
  */
 @PossibleToken
-class Int32 : TokenType(Regex("int32")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Int32"
+class Int32 : PrimitiveType() {
+    override val regex: Regex = Regex("int32")
 }
 
 /**
@@ -281,12 +213,8 @@ class Int32 : TokenType(Regex("int32")) {
  * Example 1: float32 a = 0.003;
  */
 @PossibleToken
-class Float32 : TokenType(Regex("float32")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Float32"
+class Float32 : PrimitiveType() {
+    override val regex: Regex = Regex("float32")
 }
 
 /**
@@ -296,12 +224,8 @@ class Float32 : TokenType(Regex("float32")) {
  * Example 1: char a = 'a';
  */
 @PossibleToken
-class Char : TokenType(Regex("char")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Char"
+class Char : PrimitiveType() {
+    override val regex: Regex = Regex("char")
 }
 
 /**
@@ -311,12 +235,8 @@ class Char : TokenType(Regex("char")) {
  * Example 1: if (a == b);
  */
 @PossibleToken
-class LBracket : TokenType(Regex("\\(")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "LBracket"
+class LBracket : TokenType() {
+    override val regex: Regex = Regex("\\(")
 }
 
 /**
@@ -326,12 +246,8 @@ class LBracket : TokenType(Regex("\\(")) {
  * Example 1: if (a == b);
  */
 @PossibleToken
-class RBracket : TokenType(Regex("\\)")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "RBracket"
+class RBracket : TokenType() {
+    override val regex: Regex = Regex("\\)")
 }
 
 /**
@@ -341,12 +257,8 @@ class RBracket : TokenType(Regex("\\)")) {
  * Example 1: if (a == b) { action };
  */
 @PossibleToken
-class StartBlock : TokenType(Regex("\\{")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "StartBlock"
+class StartBlock : TokenType() {
+    override val regex: Regex = Regex("\\{")
 }
 
 /**
@@ -356,12 +268,8 @@ class StartBlock : TokenType(Regex("\\{")) {
  * Example 1: if (a == b) { action };
  */
 @PossibleToken
-class EndBlock : TokenType(Regex("}")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "EndBlock"
+class EndBlock : TokenType() {
+    override val regex: Regex = Regex("}")
 }
 
 /**
@@ -371,12 +279,8 @@ class EndBlock : TokenType(Regex("}")) {
  * Example 1: if (a == b) { action };
  */
 @PossibleToken
-class If : TokenType(Regex("if")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "If"
+class If : TokenType() {
+    override val regex: Regex = Regex("if")
 }
 
 /**
@@ -386,12 +290,8 @@ class If : TokenType(Regex("if")) {
  * Example 1: if (a == b) { action } else { other action };
  */
 @PossibleToken
-class Else : TokenType(Regex("else")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "Else"
+class Else : TokenType() {
+    override val regex: Regex = Regex("else")
 }
 
 /**
@@ -401,12 +301,8 @@ class Else : TokenType(Regex("else")) {
  * Example 1: while (i != 0) { action };
  */
 @PossibleToken
-class While : TokenType(Regex("while")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "While"
+class While : TokenType() {
+    override val regex: Regex = Regex("while")
 }
 
 /**
@@ -417,10 +313,6 @@ class While : TokenType(Regex("while")) {
  * Example 1: for (i = 0; i < 10; i = i + 1) { action };
  */
 @PossibleToken
-class For : TokenType(Regex("for")) {
-    /**
-     * The method returns a textual representation of the class name
-     * @return Class name on string.
-     */
-    override fun toString(): String = "For"
+class For : TokenType() {
+    override val regex: Regex = Regex("for")
 }
