@@ -88,7 +88,7 @@ class Return : TokenType() {
  * Example: int32 a = 5;
  */
 @PossibleToken
-class Assign : TokenType() {
+class Assign : ArithmeticOperator() {
     override val regex: Regex = Regex("=")
 }
 
@@ -101,7 +101,7 @@ class Assign : TokenType() {
  * Example 1: int32 a = +7;
  */
 @PossibleToken
-class Plus : TokenType() {
+class Plus : ArithmeticOperator() {
     override val regex: Regex = Regex("\\+")
 }
 
@@ -114,7 +114,7 @@ class Plus : TokenType() {
  * Example 2: int32 a = -5;
  */
 @PossibleToken
-class Minus : TokenType() {
+class Minus : ArithmeticOperator() {
     override val regex: Regex = Regex("-")
 }
 
@@ -125,7 +125,7 @@ class Minus : TokenType() {
  * Example 1: int32 a = 5 * 3;
  */
 @PossibleToken
-class Multiply : TokenType() {
+class Multiply : ArithmeticOperator() {
     override val regex: Regex = Regex("\\*")
 }
 
@@ -136,7 +136,7 @@ class Multiply : TokenType() {
  * Example 1: int32 a = 6 / 2;
  */
 @PossibleToken
-class Divide : TokenType() {
+class Divide : ArithmeticOperator() {
     override val regex: Regex = Regex("/")
 }
 
@@ -147,7 +147,7 @@ class Divide : TokenType() {
  * Example 1: int32 a = 5 % 3;
  */
 @PossibleToken
-class Modulus : TokenType() {
+class Modulus : ArithmeticOperator() {
     override val regex: Regex = Regex("%")
 }
 
@@ -158,7 +158,7 @@ class Modulus : TokenType() {
  * Example 1: if (i != 0) { action };
  */
 @PossibleToken
-class Not : TokenType() {
+class Not : LogicalOperator() {
     override val regex: Regex = Regex("!")
 }
 
@@ -169,7 +169,7 @@ class Not : TokenType() {
  * Example 1: if (i > 0) { action };
  */
 @PossibleToken
-class MoreThan : TokenType() {
+class MoreThan : LogicalOperator() {
     override val regex: Regex = Regex(">")
 }
 
@@ -180,7 +180,7 @@ class MoreThan : TokenType() {
  * Example 1: if (i < 0) { action };
  */
 @PossibleToken
-class LessThan : TokenType() {
+class LessThan : LogicalOperator() {
     override val regex: Regex = Regex("<")
 }
 
