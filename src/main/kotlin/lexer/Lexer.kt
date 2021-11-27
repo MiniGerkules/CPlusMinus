@@ -2,6 +2,7 @@ package lexer
 
 import org.reflections.Reflections
 import tokens.PossibleToken
+import tokens.Space
 import tokens.Token
 import tokens.TokenType
 import java.io.File
@@ -24,7 +25,7 @@ class Lexer(private val pathToFileWithCode: String) {
     private val allTokens: MutableList<TokenType>
     init {
         val reflections = Reflections("tokens")
-        val temp = reflections.getTypesAnnotatedWith(PossibleToken::class.java).toMutableList()
+        val temp = reflections.getTypesAnnotatedWith(PossibleToken::class.java).toList()
 
         allTokens = mutableListOf()
         for (class_ in temp) {
@@ -47,7 +48,7 @@ class Lexer(private val pathToFileWithCode: String) {
         code = file.readText()
         while (nextToken());
 
-        return tokensList.filter { it.type.toString() != "Space" }
+        return tokensList.filter { it.type::class != Space::class }
     }
 
     /**
