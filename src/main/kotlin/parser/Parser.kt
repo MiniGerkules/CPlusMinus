@@ -137,10 +137,7 @@ class Parser(private val tokens: List<Token>) {
      */
     private fun parseExpression() {
         // Expression can start from type or identifier
-        val temp = match(listOf(Identifier()) + PrimitiveType.types)
-            ?: throw IllegalArgumentException("A type or identifier is expected at the " +
-                                              "beginning of an expression! Error on position" +
-                                              " ${tokens[currentIndex].position}")
+        val temp = require(listOf(Identifier()) + PrimitiveType.types)
 
         when (temp.type) {
             is Identifier -> parseIdentifier()
