@@ -9,10 +9,12 @@ import tokens.*
  * @property tokens list of all tokens that meet in the code
  * @property currentIndex the current index of the parser in the [tokens]
  * @property rootNode the current node, which we will fill with child nodes
+ * @property allVariable the list of all declared variables
  */
 class Parser(private val tokens: List<Token>) {
     private var currentIndex: Int = 0
     private lateinit var rootNode: MainFunNode
+    private val allVariable: MutableList<VariableNode> = mutableListOf()
 
     /**
      * The method is checks the current token type to coincide with
@@ -63,7 +65,16 @@ class Parser(private val tokens: List<Token>) {
      * @throws IllegalArgumentException if the expression could not be parsed
      */
     private fun parseIdentifier() {
+        val identifier = require(listOf(Identifier()))
+        val variable = allVariable.find { it.variable.text == identifier.text } ?:
+            throw IllegalArgumentException("Unknown identifier found at position" +
+                                           "${identifier.position}!")
 
+        // for fun add the check by '('
+        val assign = require(listOf(Assign()))
+        val rightPart = parseFormula()
+
+        rootNode.addNode(BinaryOperationNode(assign, variable, rightPart))
     }
 
     /**
@@ -77,7 +88,9 @@ class Parser(private val tokens: List<Token>) {
         // for fun add the check by '('
         require(listOf(ExpEnd()))
 
-        rootNode.addNode(VariableNode(type, identifier))
+        val variable = VariableNode(type, identifier)
+        rootNode.addNode(variable)
+        allVariable.add(variable)
     }
 
     /**
@@ -103,6 +116,7 @@ class Parser(private val tokens: List<Token>) {
      */
     fun parseCode(): MainFunNode {
         rootNode = MainFunNode()
+        allVariable.clear()
 
         while (currentIndex < tokens.size) {
             parseExpression()
