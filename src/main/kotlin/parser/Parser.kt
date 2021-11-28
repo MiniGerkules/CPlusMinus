@@ -53,6 +53,17 @@ class Parser(private val tokens: List<Token>) {
     }
 
     /**
+     * The method checks if the given variable has already been declared
+     *
+     * @throws IllegalArgumentException if the expression could not be parsed
+     */
+    private fun variableExist(identifier: Token): VariableNode {
+        return allVariable.find { it.variable.text == identifier.text } ?:
+            throw IllegalArgumentException("Unknown identifier found at position" +
+                    "${identifier.position}!")
+    }
+
+    /**
      *
      */
     private fun parseFormula(): ASTNode {
@@ -66,9 +77,7 @@ class Parser(private val tokens: List<Token>) {
      */
     private fun parseIdentifier() {
         val identifier = require(listOf(Identifier()))
-        val variable = allVariable.find { it.variable.text == identifier.text } ?:
-            throw IllegalArgumentException("Unknown identifier found at position" +
-                                           "${identifier.position}!")
+        val variable = variableExist(identifier)
 
         // for fun add the check by '('
         val assign = require(listOf(Assign()))
