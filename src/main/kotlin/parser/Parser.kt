@@ -2,6 +2,7 @@ package parser
 
 import parser.ast.*
 import tokens.*
+import java.lang.IndexOutOfBoundsException
 
 /**
  * Parser of the C+- language
@@ -35,21 +36,22 @@ class Parser(private val tokens: List<Token>) {
      * The method is checks the current token type to coincide with
      * possible token types
      *
+     * @throws IllegalArgumentException if the required token type wasn't found
+     * @throws IndexOutOfBoundsException if [currentIndex] > the size of [tokens]
+     *
      * @return returns the required token and increases [currentIndex] by 1
-     * @throws IllegalArgumentException if the required token type wasn't
-     * found. In this case, the [currentIndex] increase doesn't occur
      */
     private fun require(possibleTokenTypes: List<TokenType>): Token {
-        val temp = match(possibleTokenTypes)
-
-        if (temp != null) {
-            ++currentIndex
-            return temp
+        if (currentIndex < tokens.size) {
+            if (possibleTokenTypes.any { it::class == tokens[currentIndex]::class })
+                return tokens[currentIndex++]
         } else {
-            throw IllegalArgumentException("Error!!! Expected: $possibleTokenTypes " +
-                    "actual: ${tokens[currentIndex].type} on position " +
-                    "${tokens[currentIndex].position}")
+            throw IndexOutOfBoundsException("All tokens processed!!!")
         }
+
+        throw IllegalArgumentException("Error!!! Expected: $possibleTokenTypes " +
+                "actual: ${tokens[currentIndex].type} on position " +
+                "${tokens[currentIndex].position}")
     }
 
     /**
