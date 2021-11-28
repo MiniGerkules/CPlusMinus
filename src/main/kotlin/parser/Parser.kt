@@ -74,6 +74,10 @@ class Parser(private val tokens: List<Token>) {
     private fun parseDeclaration() {
         val type = require(PrimitiveType.types)
         val identifier = require(listOf(Identifier()))
+        // for fun add the check by '('
+        require(listOf(ExpEnd()))
+
+        rootNode.addNode(VariableNode(type, identifier))
     }
 
     /**
