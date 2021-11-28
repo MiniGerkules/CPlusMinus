@@ -185,6 +185,28 @@ class LessThan : LogicalOperator() {
 }
 
 /**
+ * Class describing the type of token <And&gt
+ *
+ * The '&&' character is used to represent a conjunction.
+ * Example 1: if ((i < 0) && (i != 1)) { action };
+ */
+@PossibleToken
+class And : LogicalOperator() {
+    override val regex: Regex = Regex("&&")
+}
+
+/**
+ * Class describing the type of token <Or&gt
+ *
+ * The '<' character is used to represent a disjuncture.
+ * Example 1: if ((i < 0) || (i != 1)) { action };
+ */
+@PossibleToken
+class Or : LogicalOperator() {
+    override val regex: Regex = Regex("\\||")
+}
+
+/**
  * Class describing the type of token <Void&gt
  *
  * void is a function type that returns nothing.
