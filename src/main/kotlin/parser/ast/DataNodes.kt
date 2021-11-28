@@ -5,13 +5,16 @@ import tokens.Token
 /**
  * The class describing an AST node that is responsible for numbers
  *
- * @property value the token of type "Number"
+ * @property number the token of type "Number"
  */
-class NumberNode(override val value: Token): DataNode() {}
+class NumberNode(val number: Token): ASTNode() {
+}
 
 /**
  * The class describing an AST node that is responsible for variables
  *
- * @property value the token of type "Variable"
+ * @property type the type of [variable]
+ * @property variable the token of type "Variable"
  */
-class VariableNode(override val value: Token): DataNode() {}
+class VariableNode(val type: Token, val variable: Token): ASTNode() {
+}
