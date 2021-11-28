@@ -8,11 +8,11 @@ import tokens.*
  *
  * @property tokens list of all tokens that meet in the code
  * @property currentIndex the current index of the parser in the [tokens]
- * @property currentNode the current node, which we will fill with child nodes
+ * @property rootNode the current node, which we will fill with child nodes
  */
 class Parser(private val tokens: List<Token>) {
     private var currentIndex: Int = 0
-    private lateinit var currentNode: ExpressionNode
+    private lateinit var rootNode: MainFunNode
 
     /**
      * The method is checks the current token type to coincide with
@@ -51,14 +51,23 @@ class Parser(private val tokens: List<Token>) {
     }
 
     /**
-     * The method
+     *
+     */
+    private fun parseFormula(): ASTNode {
+        TODO("Write the parse of the formula")
+    }
+
+    /**
+     * The method parses assignment expression or function call
+     *
+     * @throws IllegalArgumentException if the expression could not be parsed
      */
     private fun parseIdentifier() {
 
     }
 
     /**
-     * The method
+     * The method parses the definition of a variable or function
      *
      * @throws IllegalArgumentException if the expression could not be parsed
      */
@@ -73,8 +82,9 @@ class Parser(private val tokens: List<Token>) {
     private fun parseExpression() {
         // Expression can start from type or identifier
         val temp = match(listOf(Identifier()) + PrimitiveType.types)
-            ?: throw error("A type or identifier is expected at the beginning of an expression!" +
-                           " Error on position ${tokens[currentIndex].position}")
+            ?: throw IllegalArgumentException("A type or identifier is expected at the " +
+                                              "beginning of an expression! Error on position" +
+                                              " ${tokens[currentIndex].position}")
 
         when (temp.type) {
             is Identifier -> parseIdentifier()
@@ -87,15 +97,14 @@ class Parser(private val tokens: List<Token>) {
      *
      * @return the root of the AST
      */
-    fun parseCode(): ExpressionNode {
-        val start = MainFunNode()
-        currentNode = start
+    fun parseCode(): MainFunNode {
+        rootNode = MainFunNode()
 
         while (currentIndex < tokens.size) {
             parseExpression()
             require(listOf(ExpEnd()))
         }
 
-        return start
+        return rootNode
     }
 }
