@@ -9,12 +9,12 @@ import tokens.*
  * @property tokens list of all tokens that meet in the code
  * @property currentIndex the current index of the parser in the [tokens]
  * @property rootNode the current node, which we will fill with child nodes
- * @property allVariable the list of all declared variables
+ * @property allVariables the list of all declared variables
  */
 class Parser(private val tokens: List<Token>) {
     private var currentIndex: Int = 0
     private lateinit var rootNode: MainFunNode
-    private val allVariable: MutableList<VariableNode> = mutableListOf()
+    private val allVariables: MutableList<VariableNode> = mutableListOf()
 
     /**
      * The method is checks the current token type to coincide with
@@ -58,7 +58,7 @@ class Parser(private val tokens: List<Token>) {
      * @throws IllegalArgumentException if the expression could not be parsed
      */
     private fun variableExist(identifier: Token): VariableNode {
-        return allVariable.find { it.variable.text == identifier.text } ?:
+        return allVariables.find { it.variable.text == identifier.text } ?:
             throw IllegalArgumentException("Unknown identifier found at position" +
                     "${identifier.position}!")
     }
@@ -129,7 +129,7 @@ class Parser(private val tokens: List<Token>) {
 
         val variable = VariableNode(type, identifier)
         rootNode.addNode(variable)
-        allVariable.add(variable)
+        allVariables.add(variable)
     }
 
     /**
@@ -155,7 +155,7 @@ class Parser(private val tokens: List<Token>) {
      */
     fun parseCode(): MainFunNode {
         rootNode = MainFunNode()
-        allVariable.clear()
+        allVariables.clear()
 
         while (currentIndex < tokens.size) {
             parseExpression()
