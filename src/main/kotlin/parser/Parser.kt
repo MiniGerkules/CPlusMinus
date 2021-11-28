@@ -51,6 +51,23 @@ class Parser(private val tokens: List<Token>) {
     }
 
     /**
+     * The method
+     */
+    private fun parseIdentifier() {
+
+    }
+
+    /**
+     * The method
+     *
+     * @throws IllegalArgumentException if the expression could not be parsed
+     */
+    private fun parseDeclaration() {
+        val type = require(PrimitiveType.types)
+        val identifier = require(listOf(Identifier()))
+    }
+
+    /**
      * The function parses the expression of C+- language
      */
     private fun parseExpression() {
@@ -58,6 +75,11 @@ class Parser(private val tokens: List<Token>) {
         val temp = match(listOf(Identifier()) + PrimitiveType.types)
             ?: throw error("A type or identifier is expected at the beginning of an expression!" +
                            " Error on position ${tokens[currentIndex].position}")
+
+        when (temp.type) {
+            is Identifier -> parseIdentifier()
+            is PrimitiveType -> parseDeclaration()
+        }
     }
 
     /**
