@@ -64,10 +64,40 @@ class Parser(private val tokens: List<Token>) {
     }
 
     /**
+     * The method parses variables, numbers or functions
      *
+     * @throws IllegalArgumentException if the expression couldn't be parsed
      */
-    private fun parseFormula(): ASTNode {
-        TODO("Write the parse of the formula")
+    private fun parseVarOrNumOrFun(): ASTNode {
+        val varOrNumOrFun = require(listOf(Identifier(), IntNumber(), FloatNumber()))
+
+        return when(varOrNumOrFun.type) {
+            is Identifier -> variableExist(varOrNumOrFun)
+            is IntNumber -> NumberNode(varOrNumOrFun)
+            is FloatNumber -> NumberNode(varOrNumOrFun)
+            else -> throw IllegalArgumentException("Error! Can't parse expression!") // Unreachable code
+        }
+    }
+
+    /**
+     * The method parses arithmetic expression
+     *
+     * @return the root node of this expression
+     */
+    private fun parseFormula(): BinaryOperationNode {
+        // This realization needs to be rewritten in future!!!
+        /*
+            a = 5 * 3;
+            a = 5 + 3;
+            a = 5 - 3;
+            a = 5 / 3;
+         */
+
+        val leftOperand = parseVarOrNumOrFun()
+        val operator = require(ArithmeticOperator.types)
+        val rightOperand = parseVarOrNumOrFun()
+
+        return BinaryOperationNode(operator, leftOperand, rightOperand)
     }
 
     /**
