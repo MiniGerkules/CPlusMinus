@@ -203,7 +203,7 @@ class And : LogicalOperator() {
  */
 @PossibleToken
 class Or : LogicalOperator() {
-    override val regex: Regex = Regex("\\||")
+    override val regex: Regex = Regex("\\|\\|")
 }
 
 /**
