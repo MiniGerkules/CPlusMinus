@@ -42,33 +42,39 @@ class Lexer(private val pathToFileWithCode: String) {
     fun lexicalAnalysis(): List<Token> {
         val file = File(pathToFileWithCode)
         tokensList.clear()
+        currentPosition = 0
 
         if (!file.isFile)
             throw FileNotFoundException("Can't find the file by $pathToFileWithCode")
 
         code = file.readText()
-        while (nextToken());
+        while (hasToken())
+            nextToken()
 
         return tokensList.filter { it.type::class != Space::class }
     }
+
+    /**
+     * Функция показывает есть ли еще необработанные токены
+     *
+     * @return true, если есть необработанные токены, иначе false
+     */
+    private fun hasToken(): Boolean = currentPosition < code.length
 
     /**
      * The method define tokens in the [code]
      *
      * @exception IllegalArgumentException throws when the lexer can't define the token
      */
-    private fun nextToken(): Boolean {
-        if (currentPosition == code.length - 1)
-            return false
-
+    @OptIn(ExperimentalStdlibApi::class)
+    private fun nextToken() {
         for (token in allTokens) {
-            val result = token.regex.find(code, currentPosition)
+            val result = token.regex.matchAt(code, currentPosition)
 
             if (result != null) {
                 tokensList.add(Token(token, result.value, currentPosition))
                 currentPosition += result.value.length
-
-                return true
+                return
             }
         }
 
