@@ -13,7 +13,7 @@ import tokens.*
  * to the working directory
  */
 class LexerTest {
-    private val workingDir: Array<String> = arrayOf("..", "..", "..", "main", "resources")
+    private val workingDir: Array<String> = arrayOf("src", "test", "resources")
 
     /**
      * The method creates the path to the [workingDir]
@@ -42,8 +42,9 @@ class LexerTest {
         try {
             val methodRes = lexer.lexicalAnalysis()
 
+            assertEquals(absRes.size, methodRes.size)
             for (i in methodRes.indices)
-                assertEquals(methodRes[i].type.toString(), absRes[i].toString())
+                assertEquals(methodRes[i].type::class, absRes[i]::class)
         } catch (error: Exception) {
             fail(error.message)
         }
@@ -75,7 +76,8 @@ class LexerTest {
 
         // The result that should be
         val absRes: List<TokenType> = listOf(
-            // Add expected types
+            Int32(), Identifier(), Assign(), IntNumber(), ExpEnd(), // First line of file
+            Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd() // Second
         )
 
         checker(path, absRes)
