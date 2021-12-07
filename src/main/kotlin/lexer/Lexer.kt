@@ -18,7 +18,7 @@ import java.io.FileNotFoundException
  * @property code all C+- code in [file][pathToFileWithCode]
  */
 class Lexer(private val pathToFileWithCode: String) {
-    private lateinit var tokensList: MutableList<Token>
+    private var tokensList: MutableList<Token> = mutableListOf()
     private lateinit var code: String
 
     private var currentPosition: Int = 0
@@ -41,6 +41,7 @@ class Lexer(private val pathToFileWithCode: String) {
      */
     fun lexicalAnalysis(): List<Token> {
         val file = File(pathToFileWithCode)
+        tokensList.clear()
 
         if (!file.isFile)
             throw FileNotFoundException("Can't find the file by $pathToFileWithCode")
