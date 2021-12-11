@@ -60,7 +60,9 @@ class LexerTest {
 
         // The result that should be
         val absRes: List<TokenType> = listOf(
-            Int32(), Identifier() // Add the following types
+            Int32(), Identifier(), StartBlock(), Print(),
+            LBracket(), StringValue(), RBracket(), ExpEnd(),
+            Return(), IntNumber(), ExpEnd(), EndBlock()
         )
 
         checker(path, absRes)
