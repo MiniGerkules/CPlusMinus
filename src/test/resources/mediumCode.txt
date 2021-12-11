@@ -1,0 +1,17 @@
+void main() {
+	float32 a = 0.009;
+	float32 b = 1.89;
+	float32 answer = 0.0;
+	
+	if (a > b) {
+		answer = a + b;
+	}
+	if (a < b) {
+		answer = b - a;
+	}
+	else {
+		answer = a * b;
+	}
+
+	print(answer);
+}

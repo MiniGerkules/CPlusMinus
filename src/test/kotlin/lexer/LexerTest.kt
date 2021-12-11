@@ -85,4 +85,30 @@ class LexerTest {
 
         checker(path, absRes)
     }
+
+    /**
+     * The test tests the work lexer using the medium example. The source
+     * data is stored in file resources/mediumCode.txt
+     */
+    @Test
+    fun `test lexical analysis on a comparing code`() {
+        val path: String = getFilePath("mediumCode.txt")
+
+        // The result that should be
+        val absRes: List<TokenType> = listOf(
+            Void(), Identifier(), StartBlock(),
+            Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd(),
+            Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd(),
+            Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd(),
+            If(), LBracket(), Identifier(), MoreThan(), Identifier(), RBracket(), StartBlock(),
+                Identifier(), Assign(), Identifier(), Plus(), Identifier(), ExpEnd(), EndBlock(),
+            If(), LBracket(), Identifier(), LessThan(), Identifier(), RBracket(), StartBlock(),
+                Identifier(), Assign(), Identifier(), Minus(), Identifier(), ExpEnd(), EndBlock(),
+            Else(), StartBlock(),
+                Identifier(), Assign(), Identifier(), Multiply(), Identifier(), ExpEnd(), EndBlock(),
+            Print(), LBracket(), Identifier(), RBracket()
+        )
+
+        checker(path, absRes)
+    }
 }
