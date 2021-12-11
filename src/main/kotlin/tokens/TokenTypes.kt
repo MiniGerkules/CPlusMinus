@@ -82,6 +82,17 @@ class Space : TokenType() {
 }
 
 /**
+ * Class describing the type of token <Print&gt
+ *
+ * print writes in console the value of needing variable
+ * Example: print(a);
+ */
+@PossibleToken
+class Print : TokenType() {
+    override val regex: Regex = Regex("print")
+}
+
+/**
  * Class describing the type of token <Return&gt
  *
  * return finishes any program or function, returning variable,
