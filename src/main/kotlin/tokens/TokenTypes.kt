@@ -42,6 +42,17 @@ class CharValue : TokenType() {
 }
 
 /**
+ * Class describing the type of token <CharValue&gt
+ *
+ * Char value is a single symbol allocated between two single quotes
+ * Examples: "Hello, World!", "12345"
+ */
+@PossibleToken
+class StringValue : TokenType() {
+    override val regex: Regex = Regex("\"(\\.*)\"")
+}
+
+/**
  * Class that describes a name of any variable.
  * This name mustn't:
  *  1) start from numbers or punctuation marks;
@@ -84,7 +95,7 @@ class Space : TokenType() {
 /**
  * Class describing the type of token <Print&gt
  *
- * print writes in console the value of needing variable
+ * print writes in console the value of needing variable or a string
  * Example: print(a);
  */
 @PossibleToken
