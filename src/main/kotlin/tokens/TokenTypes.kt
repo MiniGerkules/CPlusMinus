@@ -30,6 +30,18 @@ class FloatNumber : TokenType() {
 }
 
 /**
+ * Class describing the type of token <CharValue&gt
+ *
+ * Char value is a single symbol allocated between two single quotes
+ * Correct examples: 'a', '1', '(', '*', '%'
+ * Incorrect examples: a, 'abc', 1
+ */
+@PossibleToken
+class CharValue : TokenType() {
+    override val regex: Regex = Regex("'(\\.)'")
+}
+
+/**
  * Class that describes a name of any variable.
  * This name mustn't:
  *  1) start from numbers or punctuation marks;
