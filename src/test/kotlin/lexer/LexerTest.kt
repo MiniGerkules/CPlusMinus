@@ -77,7 +77,8 @@ class LexerTest {
         // The result that should be
         val absRes: List<TokenType> = listOf(
             Int32(), Identifier(), Assign(), IntNumber(), ExpEnd(), // First line of file
-            Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd() // Second
+            Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd(), // Second
+            Char(), Identifier(), Assign(), CharValue(), ExpEnd() // Third
         )
 
         checker(path, absRes)
