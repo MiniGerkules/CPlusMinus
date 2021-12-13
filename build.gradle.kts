@@ -13,8 +13,9 @@ repositories {
 
 dependencies {
     implementation("junit:junit:4.13.2")
+    implementation("org.reflections:reflections:0.10.2")
+    implementation("org.javassist:javassist:3.28.0-GA")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.31")
-    implementation("org.reflections:reflections:0.10.1")
 }
 
 tasks.test {
