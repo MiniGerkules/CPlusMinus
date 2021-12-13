@@ -136,6 +136,8 @@ class Parser(private val tokens: List<Token>) {
 
     /**
      * The function parses the expression of C+- language
+     *
+     * @throws IllegalArgumentException if the expression could not be parsed
      */
     private fun parseExpression() {
         // Expression can start from type or identifier
@@ -149,6 +151,8 @@ class Parser(private val tokens: List<Token>) {
 
     /**
      * The method that starts parsing the C+- code
+     *
+     * @throws IllegalArgumentException if the expression could not be parsed
      *
      * @return the root of the AST
      */
