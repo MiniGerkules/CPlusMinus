@@ -21,15 +21,20 @@ class Parser(private val tokens: List<Token>) {
      * The method is checks the current token type to coincide with
      * possible token types
      *
+     * @throws IndexOutOfBoundsException if [currentIndex] > the size of [tokens]
+     *
      * @return the token if the current token type contains in the
      * [possibleTokenTypes] else null
      */
     private fun match(possibleTokenTypes: List<TokenType>): Token? {
-        if (currentIndex < tokens.size)
-            if (possibleTokenTypes.any { it::class == tokens[currentIndex]::class })
-                return tokens[currentIndex]
-
-        return null
+        if (currentIndex < tokens.size) {
+            return if (possibleTokenTypes.any { it::class == tokens[currentIndex].type::class })
+                tokens[currentIndex]
+            else
+                null
+        } else {
+            throw IndexOutOfBoundsException("All tokens processed!!!")
+        }
     }
 
     /**
@@ -42,16 +47,14 @@ class Parser(private val tokens: List<Token>) {
      * @return returns the required token and increases [currentIndex] by 1
      */
     private fun require(possibleTokenTypes: List<TokenType>): Token {
-        if (currentIndex < tokens.size) {
-            if (possibleTokenTypes.any { it::class == tokens[currentIndex]::class })
-                return tokens[currentIndex++]
+        val result = match(possibleTokenTypes)
+        if (result != null) {
+            ++currentIndex
+            return result
         } else {
-            throw IndexOutOfBoundsException("All tokens processed!!!")
+            throw IllegalArgumentException("Error!!! Expected: $possibleTokenTypes " +
+                "actual: ${tokens[currentIndex].type} on position ${tokens[currentIndex].position}")
         }
-
-        throw IllegalArgumentException("Error!!! Expected: $possibleTokenTypes " +
-                "actual: ${tokens[currentIndex].type} on position " +
-                "${tokens[currentIndex].position}")
     }
 
     /**
@@ -96,7 +99,7 @@ class Parser(private val tokens: List<Token>) {
          */
 
         val leftOperand = parseVarOrNumOrFun()
-        val operator = require(ArithmeticOperator.types)
+        val operator = require(ArithmeticOperator.types.subList(1, ArithmeticOperator.types.size - 1))
         val rightOperand = parseVarOrNumOrFun()
 
         return BinaryOperationNode(operator, leftOperand, rightOperand)
@@ -107,8 +110,7 @@ class Parser(private val tokens: List<Token>) {
      *
      * @throws IllegalArgumentException if the expression could not be parsed
      */
-    private fun parseIdentifier() {
-        val identifier = require(listOf(Identifier()))
+    private fun parseIdentifier(identifier: Token) {
         val variable = variableExist(identifier)
 
         // for fun add the check by '('
@@ -119,15 +121,33 @@ class Parser(private val tokens: List<Token>) {
     }
 
     /**
+     * The method parses the expression that should to display
+     *
+     * @param printOperator the token describing the output to the screen
+     */
+    private fun parsePrint(printOperator: Token) {
+        val identifier = require(listOf(Identifier(), IntNumber(), FloatNumber()))
+
+        require(listOf(LBracket()))
+        val node: ASTNode = when(identifier.type) {
+            is Identifier -> allVariables.find { it.variable.text == identifier.text }
+            is IntNumber -> NumberNode(identifier)
+            is FloatNumber -> NumberNode(identifier)
+            else -> null
+        } ?: throw IllegalArgumentException("Error! Can't parse PRINT expression!")
+        require(listOf(RBracket()))
+
+        rootNode.addNode(UnaryOperatorNode(printOperator, node))
+    }
+
+    /**
      * The method parses the definition of a variable or function
      *
      * @throws IllegalArgumentException if the expression could not be parsed
      */
-    private fun parseDeclaration() {
-        val type = require(PrimitiveType.types)
+    private fun parseDeclaration(type: Token) {
         val identifier = require(listOf(Identifier()))
         // for fun add the check by '('
-        require(listOf(ExpEnd()))
 
         val variable = VariableNode(type, identifier)
         rootNode.addNode(variable)
@@ -141,11 +161,12 @@ class Parser(private val tokens: List<Token>) {
      */
     private fun parseExpression() {
         // Expression can start from type or identifier
-        val temp = require(listOf(Identifier()) + PrimitiveType.types)
+        val temp = require(listOf(Identifier(), Print()) + PrimitiveType.types)
 
         when (temp.type) {
-            is Identifier -> parseIdentifier()
-            is PrimitiveType -> parseDeclaration()
+            is Identifier -> parseIdentifier(temp)
+            is Print -> parsePrint(temp)
+            is PrimitiveType -> parseDeclaration(temp)
         }
     }
 
