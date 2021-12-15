@@ -31,7 +31,19 @@ fun main(args: Array<String>) {
     }
 
     val lexer = Lexer(args[0])
-    val parser = Parser(lexer.lexicalAnalysis())
-    val byteCodeGenerator = ByteCodeGenerator(parser.parseCode())
+
+    val lexerResult = lexer.lexicalAnalysis()
+//    println("Lexer results:")
+//    for (elem in lexerResult)
+//        println("Type = ${elem.type}; Text = ${elem.text}")
+
+    val parser = Parser(lexerResult)
+
+    val parserResult = parser.parseCode()
+//    println("\n\nParser results:")
+//    for (elem in parserResult.nodes)
+//        println(elem)
+
+    val byteCodeGenerator = ByteCodeGenerator(parserResult)
     byteCodeGenerator.generateByteCode()
 }
