@@ -1,7 +1,6 @@
 package parser.ast
 
 import tokens.Token
-import java.util.*
 
 /**
  * The root of the AST. Also, the node is described an AST node that is
@@ -10,7 +9,7 @@ import java.util.*
  * @nodes children nodes
  */
 class MainFunNode: ASTNode() {
-    private val nodes: MutableList<ASTNode> = mutableListOf()
+    val nodes: MutableList<ASTNode> = mutableListOf()
 
     /**
      * The method adds the [nextNode] in [nodes]
