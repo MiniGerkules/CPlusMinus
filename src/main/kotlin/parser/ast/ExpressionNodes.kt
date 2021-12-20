@@ -6,10 +6,10 @@ import tokens.Token
  * The root of the AST. Also, the node is described an AST node that is
  * responsible for main function
  *
- * @nodes children nodes
+ * @property nodes all children nodes
  */
 class MainFunNode: ASTNode() {
-    val nodes: MutableList<ASTNode> = mutableListOf()
+    private val nodes: MutableList<ASTNode> = mutableListOf()
 
     /**
      * The method adds the [nextNode] in [nodes]
@@ -19,6 +19,13 @@ class MainFunNode: ASTNode() {
     fun addNode(nextNode: ASTNode) {
         nodes.add(nextNode)
     }
+
+    /**
+     * The method returns a copy of [nodes] that cannot be modified
+     *
+     * @return copy of [nodes] in List<>
+     */
+    fun getNodes(): List<ASTNode> = nodes.toList()
 }
 
 /**

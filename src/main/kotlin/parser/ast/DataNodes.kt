@@ -7,8 +7,7 @@ import tokens.Token
  *
  * @property number the token of type "Number"
  */
-class NumberNode(val number: Token): ASTNode() {
-}
+class NumberNode(val number: Token): ASTNode()
 
 /**
  * The class describing an AST node that is responsible for variables
@@ -16,5 +15,4 @@ class NumberNode(val number: Token): ASTNode() {
  * @property type the type of [variable]
  * @property variable the token of type "Variable"
  */
-class VariableNode(val type: Token, val variable: Token): ASTNode() {
-}
+class VariableNode(val type: Token, val variable: Token): ASTNode()

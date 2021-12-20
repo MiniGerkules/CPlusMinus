@@ -85,7 +85,7 @@ class ByteCodeGenerator(private val rootNode: MainFunNode) {
                 recursiveGenerate(node.rigthOperand)
             }
             is MainFunNode -> {
-                for (elem in rootNode.nodes) {
+                for (elem in rootNode.getNodes()) {
                     recursiveGenerate(elem)
                     codeForJavaAssist.append(";\n")
                 }

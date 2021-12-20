@@ -7,5 +7,4 @@ package tokens
  * @property text the text of the token
  * @property position the position of the token in the source code
  */
-class Token(val type: TokenType, val text: String, val position: Int) {
-}
+class Token(val type: TokenType, val text: String, val position: Int)

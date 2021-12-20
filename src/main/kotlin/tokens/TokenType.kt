@@ -5,6 +5,6 @@ package tokens
  *
  * @property regex the regular expression specifying the token
  */
-abstract class TokenType() {
+abstract class TokenType {
     abstract val regex: Regex
 }
