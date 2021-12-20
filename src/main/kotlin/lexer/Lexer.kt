@@ -1,26 +1,23 @@
 package lexer
 
+import exceptions.lexerExceptions.*
 import org.reflections.Reflections
 import tokens.PossibleToken
 import tokens.Space
 import tokens.Token
 import tokens.TokenType
-import java.io.File
 import java.io.FileNotFoundException
 
 /**
  * The class representing the lexical analyzer of the C+- language.
  *
- * @property pathToFileWithCode path to source code file
  * @property currentPosition the current position of the lexer in the code
  * @property allTokens list of all possible language tokens
  * @property tokensList list of all tokens that meet in the code
- * @property code all C+- code in [file][pathToFileWithCode]
+ * @property code the code of the program
  */
-class Lexer(private val pathToFileWithCode: String) {
+class Lexer(private val code: String) {
     private var tokensList: MutableList<Token> = mutableListOf()
-    private lateinit var code: String
-
     private var currentPosition: Int = 0
     private val allTokens: MutableList<TokenType>
     init {
@@ -40,14 +37,9 @@ class Lexer(private val pathToFileWithCode: String) {
      * @exception IllegalArgumentException throws when the lexer can't define the token
      */
     fun lexicalAnalysis(): List<Token> {
-        val file = File(pathToFileWithCode)
-        tokensList.clear()
-        currentPosition = 0
+        if (tokensList.isNotEmpty())
+            throw AlreadyProcessedCodeException("The code already processed!")
 
-        if (!file.isFile)
-            throw FileNotFoundException("Can't find the file by $pathToFileWithCode")
-
-        code = file.readText()
         while (hasToken())
             nextToken()
 
@@ -78,6 +70,6 @@ class Lexer(private val pathToFileWithCode: String) {
             }
         }
 
-        throw IllegalArgumentException("The error was detected at position $currentPosition!")
+        throw UnableToRecognizeTokenException("The error was detected at position $currentPosition!")
     }
 }
