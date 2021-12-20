@@ -1,3 +1,4 @@
+import java.io.FileReader
 import lexer.Lexer
 import parser.Parser
 import byteCode.ByteCodeGenerator
@@ -30,9 +31,13 @@ fun main(args: Array<String>) {
         return
     }
 
-    val lexer = Lexer(args[0])
+    val lexer = Lexer()
+    // If an exception is thrown, it will be impossible to fix it
+    FileReader(args[0]).buffered().forEachLine {
+        lexer.lexicalAnalysis(it)
+    }
 
-    val lexerResult = lexer.lexicalAnalysis()
+    val lexerResult = lexer.getTokens()
 //    println("Lexer results:")
 //    for (elem in lexerResult)
 //        println("Type = ${elem.type}; Text = ${elem.text}")
