@@ -6,18 +6,18 @@ import tokens.PossibleToken
 import tokens.Space
 import tokens.Token
 import tokens.TokenType
-import java.io.FileNotFoundException
 
 /**
  * The class representing the lexical analyzer of the C+- language.
  *
+ * @property tokensList list of all tokens that meet in the code
+ * @property currentCodeLine the current line of code to be split into tokens
  * @property currentPosition the current position of the lexer in the code
  * @property allTokens list of all possible language tokens
- * @property tokensList list of all tokens that meet in the code
- * @property code the code of the program
  */
-class Lexer(private val code: String) {
+class Lexer() {
     private var tokensList: MutableList<Token> = mutableListOf()
+    private var currentCodeLine: String = ""
     private var currentPosition: Int = 0
     private val allTokens: MutableList<TokenType>
     init {
@@ -30,38 +30,58 @@ class Lexer(private val code: String) {
         }
     }
 
+    // API for possible future use
+    /**
+     * The method shows if there are processed tokens that can be received
+     *
+     * @return true if there are tokens else false
+     */
+    fun haveTokens(): Boolean = tokensList.isNotEmpty()
+
+    /**
+     * The method clears the list of tokens
+     */
+    fun clearTokens() {
+        tokensList.clear()
+    }
+    // End of API
+
+    /**
+     * The method returns all processed tokens
+     *
+     * @return all processed tokens except [Space]
+     */
+    fun getTokens(): List<Token> = tokensList.filter { it.type::class != Space::class }.toList()
+
     /**
      * The method parses the code from the file from the file.
      *
-     * @exception FileNotFoundException throws when the path is not found (or doesn't exist)
-     * @exception IllegalArgumentException throws when the lexer can't define the token
+     * @param codeLine line of code to be split into tokens
      */
-    fun lexicalAnalysis(): List<Token> {
-        if (tokensList.isNotEmpty())
-            throw AlreadyProcessedCodeException("The code already processed!")
+    fun lexicalAnalysis(codeLine: String) {
+        currentCodeLine = codeLine
+        currentPosition = 0
 
         while (hasToken())
             nextToken()
-
-        return tokensList.filter { it.type::class != Space::class }
     }
 
     /**
-     * Функция показывает есть ли еще необработанные токены
+     * The method shows if there are still unprocessed tokens
      *
-     * @return true, если есть необработанные токены, иначе false
+     * @return true if there are raw tokens, false otherwise
      */
-    private fun hasToken(): Boolean = currentPosition < code.length
+    private fun hasToken(): Boolean = currentPosition < currentCodeLine.length
 
     /**
      * The method define tokens in the [code]
      *
-     * @exception IllegalArgumentException throws when the lexer can't define the token
+     * @exception UnableToRecognizeTokenException throws when the lexer can't define the token
      */
     @OptIn(ExperimentalStdlibApi::class)
     private fun nextToken() {
         for (token in allTokens) {
-            val result = token.regex.matchAt(code, currentPosition)
+            val result = token.regex.matchAt(currentCodeLine, currentPosition)
 
             if (result != null) {
                 tokensList.add(Token(token, result.value, currentPosition))
