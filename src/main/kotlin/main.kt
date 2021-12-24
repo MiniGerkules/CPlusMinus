@@ -2,6 +2,10 @@ import java.io.FileReader
 import lexer.Lexer
 import parser.Parser
 import byteCode.ByteCodeGenerator
+import exceptions.lexerExceptions.LexerException
+import exceptions.parserExceptions.ParserException
+import parser.ast.MainFunNode
+import tokens.Token
 
 /**
  * The method returns the extension of the file written in the string
@@ -32,22 +36,31 @@ fun main(args: Array<String>) {
     }
 
     val lexer = Lexer()
-    // If an exception is thrown, it will be impossible to fix it
-    FileReader(args[0]).buffered().forEachLine {
-        lexer.lexicalAnalysis(it)
+    try {
+        FileReader(args[0]).buffered().forEachLine {
+            lexer.lexicalAnalysis(it)
+        }
+    } catch (error: java.io.FileNotFoundException) {
+        println("Error! Failed to open file!\n${error.message}")
+        return
     }
 
-    val lexerResult = lexer.getTokens()
-//    println("Lexer results:")
-//    for (elem in lexerResult)
-//        println("Type = ${elem.type}; Text = ${elem.text}")
+    val lexerResult: List<Token>
+    try {
+        lexerResult = lexer.getTokens()
+    } catch (error: LexerException) {
+        println("Lexer error!\n${error.message}")
+        return
+    }
 
     val parser = Parser(lexerResult)
-
-    val parserResult = parser.parseCode()
-//    println("\n\nParser results:")
-//    for (elem in parserResult.nodes)
-//        println(elem)
+    val parserResult: MainFunNode
+    try {
+        parserResult = parser.parseCode()
+    } catch (error: ParserException) {
+        println("Parser error!\n${error.message}")
+        return
+    }
 
     val byteCodeGenerator = ByteCodeGenerator(parserResult)
     byteCodeGenerator.generateByteCode()
