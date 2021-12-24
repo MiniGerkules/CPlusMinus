@@ -1,5 +1,6 @@
 package parser
 
+import exceptions.parserExceptions.AllTokensProcessedException
 import parser.ast.*
 import tokens.*
 import java.lang.IndexOutOfBoundsException
@@ -33,7 +34,7 @@ class Parser(private val tokens: List<Token>) {
             else
                 null
         } else {
-            throw IndexOutOfBoundsException("All tokens processed!!!")
+            throw AllTokensProcessedException("All tokens processed!!!")
         }
     }
 
