@@ -60,11 +60,11 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method checks if the given variable has already been declared
      *
-     * @throws IllegalArgumentException if the expression could not be parsed
+     * @throws CannotParseException if the expression could not be parsed
      */
     private fun variableExist(identifier: Token): VariableNode {
         return allVariables.find { it.variable.text == identifier.text } ?:
-            throw IllegalArgumentException("Unknown identifier found at position" +
+            throw CannotParseException("Unknown identifier found at position" +
                     "${identifier.position}!")
     }
 
@@ -72,7 +72,7 @@ class Parser(private val tokens: List<Token>) {
      * The method parses variables, numbers or functions
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
-     * @throws IllegalArgumentException if the expression couldn't be parsed
+     * @throws CannotParseException if the expression couldn't be parsed
      */
     private fun parseVarOrNumOrFunOrBra(): ASTNode {
         val varOrNumOrFun = require(listOf(Identifier(), IntNumber(), FloatNumber()))
@@ -86,7 +86,7 @@ class Parser(private val tokens: List<Token>) {
                 require(listOf(RBracket()))
                 node
             }
-            else -> throw IllegalArgumentException("Error! Can't parse expression!") // Unreachable code
+            else -> throw CannotParseException("Error! Can't parse expression!") // Unreachable code
         }
     }
 
@@ -94,6 +94,7 @@ class Parser(private val tokens: List<Token>) {
      * The method parses arithmetic expression
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
+     * @throws CannotParseException if the expression couldn't be parsed
      * @return the root node of this expression
      */
     private fun parseFormula(): ASTNode {
@@ -118,7 +119,7 @@ class Parser(private val tokens: List<Token>) {
      * The method parses assignment expression or function call
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
-     * @throws IllegalArgumentException if the expression could not be parsed
+     * @throws CannotParseException if the expression could not be parsed
      */
     private fun parseIdentifier(identifier: Token) {
         val variable = variableExist(identifier)
@@ -134,6 +135,7 @@ class Parser(private val tokens: List<Token>) {
      * The method parses the expression that should to display
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
+     * @throws CannotParseException if the expression couldn't be parsed
      * @param printOperator the token describing the output to the screen
      */
     private fun parsePrint(printOperator: Token) {
@@ -145,7 +147,7 @@ class Parser(private val tokens: List<Token>) {
             is IntNumber -> NumberNode(identifier)
             is FloatNumber -> NumberNode(identifier)
             else -> null
-        } ?: throw IllegalArgumentException("Error! Can't parse PRINT expression!")
+        } ?: throw CannotParseException("Error! Can't parse PRINT expression!")
         require(listOf(RBracket()))
 
         rootNode.addNode(UnaryOperatorNode(printOperator, node))
@@ -155,7 +157,7 @@ class Parser(private val tokens: List<Token>) {
      * The method parses the definition of a variable or function
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
-     * @throws IllegalArgumentException if the expression could not be parsed
+     * @throws CannotParseException if the expression could not be parsed
      */
     private fun parseDeclaration(type: Token) {
         val identifier = require(listOf(Identifier()))
@@ -172,7 +174,7 @@ class Parser(private val tokens: List<Token>) {
      * The function parses the expression of C+- language
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
-     * @throws IllegalArgumentException if the expression could not be parsed
+     * @throws CannotParseException if the expression could not be parsed
      */
     private fun parseExpression() {
         // Expression can start from type or identifier
@@ -188,7 +190,7 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method that starts parsing the C+- code
      *
-     * @throws IllegalArgumentException if the expression could not be parsed
+     * @throws CannotParseException if the expression could not be parsed
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @return the root of the AST
      */
