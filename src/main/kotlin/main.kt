@@ -1,7 +1,7 @@
 import java.io.FileReader
 import lexer.Lexer
 import parser.Parser
-import byteCode.ByteCodeGenerator
+import byteCode.CodeGenerator
 import exceptions.lexerExceptions.LexerException
 import exceptions.parserExceptions.ParserException
 import parser.ast.MainFunNode
@@ -62,6 +62,9 @@ fun main(args: Array<String>) {
         return
     }
 
-    val byteCodeGenerator = ByteCodeGenerator(parserResult)
-    byteCodeGenerator.generateByteCode()
+    val codeGenerator = CodeGenerator()
+    codeGenerator.makeProgram(parserResult)
+
+    val program = codeGenerator.getProgram()
+    program.writeFile("/home/eugene/Рабочий стол")
 }
