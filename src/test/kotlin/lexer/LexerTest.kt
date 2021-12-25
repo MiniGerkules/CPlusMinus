@@ -5,6 +5,7 @@ import java.io.File
 import org.junit.Assert.*
 import org.junit.Test
 import tokens.*
+import java.io.FileReader
 
 /**
  * The class that tests the lexer of the C+- language
@@ -37,14 +38,16 @@ class LexerTest {
      * @param absRes expected result
      */
     private fun checker(path: String, absRes: List<TokenType>) {
-        val lexer = Lexer(path)
-
+        val lexer = Lexer()
         try {
-            val methodRes = lexer.lexicalAnalysis()
+            FileReader(path).buffered().forEachLine {
+                lexer.lexicalAnalysis(it)
+            }
 
+            val methodRes = lexer.getTokens()
             assertEquals(absRes.size, methodRes.size)
             for (i in methodRes.indices)
-                assertEquals(methodRes[i].type::class, absRes[i]::class)
+                assertEquals(methodRes[i].type, absRes[i])
         } catch (error: Exception) {
             fail(error.message)
         }
@@ -60,8 +63,8 @@ class LexerTest {
 
         // The result that should be
         val absRes: List<TokenType> = listOf(
-            Int32(), Identifier(), StartBlock(), Print(),
-            LBracket(), StringValue(), RBracket(), ExpEnd(),
+            Int32(), Identifier(), LBracket(), RBracket(), StartBlock(),
+            Print(), LBracket(), StringValue(), RBracket(), ExpEnd(),
             Return(), IntNumber(), ExpEnd(), EndBlock()
         )
 
@@ -96,17 +99,18 @@ class LexerTest {
 
         // The result that should be
         val absRes: List<TokenType> = listOf(
-            Void(), Identifier(), StartBlock(),
+            Int32(), Identifier(), LBracket(), RBracket(), StartBlock(),
             Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd(),
             Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd(),
             Float32(), Identifier(), Assign(), FloatNumber(), ExpEnd(),
             If(), LBracket(), Identifier(), MoreThan(), Identifier(), RBracket(), StartBlock(),
-                Identifier(), Assign(), Identifier(), Plus(), Identifier(), ExpEnd(), EndBlock(),
+            Identifier(), Assign(), Identifier(), Plus(), Identifier(), ExpEnd(), EndBlock(),
             If(), LBracket(), Identifier(), LessThan(), Identifier(), RBracket(), StartBlock(),
-                Identifier(), Assign(), Identifier(), Minus(), Identifier(), ExpEnd(), EndBlock(),
+            Identifier(), Assign(), Identifier(), Minus(), Identifier(), ExpEnd(), EndBlock(),
             Else(), StartBlock(),
-                Identifier(), Assign(), Identifier(), Multiply(), Identifier(), ExpEnd(), EndBlock(),
-            Print(), LBracket(), Identifier(), RBracket()
+            Identifier(), Assign(), Identifier(), Multiply(), Identifier(), ExpEnd(), EndBlock(),
+            Print(), LBracket(), Identifier(), RBracket(), ExpEnd(),
+            EndBlock()
         )
 
         checker(path, absRes)
