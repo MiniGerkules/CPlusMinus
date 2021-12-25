@@ -31,7 +31,7 @@ class MainFunNode: ASTNode() {
 /**
  * The class defines the node of the AST that describes binary operations
  */
-class BinaryOperationNode(val operation: Token, val leftOperand: ASTNode,
+class BinaryOperationNode(val operator: Token, val leftOperand: ASTNode,
                           val rigthOperand: ASTNode): ASTNode() {
 }
 
