@@ -8,11 +8,10 @@ import tokens.Print
 /**
  * The class generates valid Java code using AST
  *
- * @property root AST root node
  * @property listOfVariables the list contains the all variables in the program
  * @property javaCode Java code equivalent to AST
  */
-class JavaCodeGenerator(private val root: MainFunNode) {
+class JavaCodeGenerator() {
     private val listOfVariables: MutableList<VariableNode> = mutableListOf()
     private val javaCode = StringBuilder()
 
@@ -36,12 +35,69 @@ class JavaCodeGenerator(private val root: MainFunNode) {
 
     /**
      * The method generates Java code by AST
+     *
+     * @param root AST root node
      */
-    fun generate() {
+    fun generate(root: MainFunNode) {
         javaCode.append("{\n")
         recursiveGenerate(root)
         printAllVariables()
         javaCode.append('}')
+    }
+
+    /**
+     * The method processes an AST node if it is a NumberNode
+     */
+    private fun ifNumberNode(node: NumberNode) {
+        javaCode.append(node.number.text)
+    }
+
+    /**
+     * The method processes an AST node if it is a VariableNode
+     */
+    private fun ifVariableNode(node: VariableNode) {
+        if (!listOfVariables.any { it.variable.text == node.variable.text }) {
+            when (node.type.type) {
+                is Int32 -> javaCode.append("int ")
+                is Float32 -> javaCode.append("float ")
+            }
+            listOfVariables.add(node)
+        }
+
+        javaCode.append(node.variable.text)
+    }
+
+    /**
+     * The method processes an AST node if it is a UnaryOperatorNode
+     */
+    private fun ifUnaryOperatorNode(node: UnaryOperatorNode) {
+        when (node.operator.type) {
+            is Print -> {
+                javaCode.append("System.out.println(")
+                recursiveGenerate(node.operand)
+                javaCode.append(");")
+            }
+            else -> error("Something happened to the tree! Unable to generate bytecode!")
+        }
+    }
+
+    /**
+     * The method processes an AST node if it is a BinaryOperationNode
+     */
+    private fun ifBinaryOperatorNode(node: BinaryOperationNode) {
+        recursiveGenerate(node.leftOperand)
+        javaCode.append(" ${node.operation.text} ")
+        recursiveGenerate(node.rigthOperand)
+    }
+
+    /**
+     * The method processes an AST node if it is a MainFunNode
+     */
+    private fun ifMainFunNode(node: MainFunNode) {
+        for (elem in node.getNodes()) {
+            recursiveGenerate(elem)
+            javaCode.append(";\n")
+        }
     }
 
     /**
@@ -51,39 +107,11 @@ class JavaCodeGenerator(private val root: MainFunNode) {
      */
     private fun recursiveGenerate(node: ASTNode) {
         when (node) {
-            is NumberNode -> javaCode.append(node.number.text)
-            is VariableNode -> {
-                if (!listOfVariables.any { it.variable.text == node.variable.text }) {
-                    when (node.type.type) {
-                        is Int32 -> javaCode.append("int ")
-                        is Float32 -> javaCode.append("float ")
-                    }
-                    listOfVariables.add(node)
-                }
-
-                javaCode.append(node.variable.text)
-            }
-            is UnaryOperatorNode -> {
-                when (node.operator.type) {
-                    is Print -> {
-                        javaCode.append("System.out.println(")
-                        recursiveGenerate(node.operand)
-                        javaCode.append(");")
-                    }
-                    else -> error("Something happened to the tree! Unable to generate bytecode!")
-                }
-            }
-            is BinaryOperationNode -> {
-                recursiveGenerate(node.leftOperand)
-                javaCode.append(" ${node.operation.text} ")
-                recursiveGenerate(node.rigthOperand)
-            }
-            is MainFunNode -> {
-                for (elem in root.getNodes()) {
-                    recursiveGenerate(elem)
-                    javaCode.append(";\n")
-                }
-            }
+            is NumberNode -> ifNumberNode(node)
+            is VariableNode -> ifVariableNode(node)
+            is UnaryOperatorNode -> ifUnaryOperatorNode(node)
+            is BinaryOperationNode -> ifBinaryOperatorNode(node)
+            is MainFunNode -> ifMainFunNode(node)
             else -> error("Something happened to the tree! Unable to generate bytecode!")
         }
     }
