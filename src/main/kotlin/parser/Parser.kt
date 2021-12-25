@@ -3,7 +3,6 @@ package parser
 import exceptions.parserExceptions.AllTokensProcessedException
 import parser.ast.*
 import tokens.*
-import java.lang.IndexOutOfBoundsException
 
 /**
  * Parser of the C+- language
@@ -22,14 +21,14 @@ class Parser(private val tokens: List<Token>) {
      * The method is checks the current token type to coincide with
      * possible token types
      *
-     * @throws IndexOutOfBoundsException if [currentIndex] > the size of [tokens]
+     * @throws AllTokensProcessedException if [currentIndex] > the size of [tokens]
      *
      * @return the token if the current token type contains in the
      * [possibleTokenTypes] else null
      */
     private fun match(possibleTokenTypes: List<TokenType>): Token? {
         if (currentIndex < tokens.size) {
-            return if (possibleTokenTypes.any { it::class == tokens[currentIndex].type::class })
+            return if (possibleTokenTypes.any { it == tokens[currentIndex].type })
                 tokens[currentIndex]
             else
                 null
@@ -43,7 +42,7 @@ class Parser(private val tokens: List<Token>) {
      * possible token types
      *
      * @throws IllegalArgumentException if the required token type wasn't found
-     * @throws IndexOutOfBoundsException if [currentIndex] > the size of [tokens]
+     * @throws AllTokensProcessedException if [currentIndex] > the size of [tokens]
      *
      * @return returns the required token and increases [currentIndex] by 1
      */
@@ -148,7 +147,7 @@ class Parser(private val tokens: List<Token>) {
      */
     private fun parseDeclaration(type: Token) {
         val identifier = require(listOf(Identifier()))
-        // for fun add the check by '('
+
 
         val variable = VariableNode(type, identifier)
         rootNode.addNode(variable)
