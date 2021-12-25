@@ -1,9 +1,7 @@
 package byteCode
 
 import parser.ast.*
-import tokens.Float32
-import tokens.Int32
-import tokens.Print
+import tokens.*
 
 /**
  * The class generates valid Java code using AST
@@ -72,6 +70,11 @@ class JavaCodeGenerator {
      */
     private fun ifUnaryOperatorNode(node: UnaryOperatorNode) {
         when (node.operator.type) {
+            is Plus -> recursiveGenerate(node.operand)
+            is Minus -> {
+                javaCode.append("-")
+                recursiveGenerate(node.operand)
+            }
             is Print -> {
                 javaCode.append("System.out.println(")
                 recursiveGenerate(node.operand)
