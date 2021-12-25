@@ -71,6 +71,7 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method parses variables, numbers or functions
      *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @throws IllegalArgumentException if the expression couldn't be parsed
      */
     private fun parseVarOrNumOrFunOrBra(): ASTNode {
@@ -92,6 +93,7 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method parses arithmetic expression
      *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @return the root node of this expression
      */
     private fun parseFormula(): ASTNode {
@@ -115,6 +117,7 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method parses assignment expression or function call
      *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @throws IllegalArgumentException if the expression could not be parsed
      */
     private fun parseIdentifier(identifier: Token) {
@@ -130,6 +133,7 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method parses the expression that should to display
      *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @param printOperator the token describing the output to the screen
      */
     private fun parsePrint(printOperator: Token) {
@@ -150,6 +154,7 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method parses the definition of a variable or function
      *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @throws IllegalArgumentException if the expression could not be parsed
      */
     private fun parseDeclaration(type: Token) {
@@ -166,6 +171,7 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The function parses the expression of C+- language
      *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @throws IllegalArgumentException if the expression could not be parsed
      */
     private fun parseExpression() {
@@ -183,7 +189,7 @@ class Parser(private val tokens: List<Token>) {
      * The method that starts parsing the C+- code
      *
      * @throws IllegalArgumentException if the expression could not be parsed
-     *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @return the root of the AST
      */
     fun parseCode(): MainFunNode {
