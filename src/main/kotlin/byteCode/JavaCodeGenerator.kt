@@ -86,7 +86,7 @@ class JavaCodeGenerator {
      */
     private fun ifBinaryOperatorNode(node: BinaryOperationNode) {
         recursiveGenerate(node.leftOperand)
-        javaCode.append(" ${node.operation.text} ")
+        javaCode.append(" ${node.operator.text} ")
         recursiveGenerate(node.rigthOperand)
     }
 
