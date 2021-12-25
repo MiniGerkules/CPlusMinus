@@ -90,13 +90,10 @@ class Parser(private val tokens: List<Token>) {
      * @return the root node of this expression
      */
     private fun parseFormula(): BinaryOperationNode {
-        // This realization needs to be rewritten in future!!!
-        /*
-            a = 5 * 3;
-            a = 5 + 3;
-            a = 5 - 3;
-            a = 5 / 3;
-         */
+        // The parsing starts after '|'
+        // a = |9
+        // a = |90 + 1029
+        // a = |(1312 - 232) + 123
 
         val leftOperand = parseVarOrNumOrFun()
         val operator = require(ArithmeticOperator.types.subList(1, ArithmeticOperator.types.size - 1))
@@ -148,10 +145,12 @@ class Parser(private val tokens: List<Token>) {
     private fun parseDeclaration(type: Token) {
         val identifier = require(listOf(Identifier()))
 
-
         val variable = VariableNode(type, identifier)
         rootNode.addNode(variable)
         allVariables.add(variable)
+
+        if (match(listOf(Assign())) != null)
+            parseIdentifier(identifier)
     }
 
     /**
