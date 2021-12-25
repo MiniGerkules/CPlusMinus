@@ -69,13 +69,24 @@ class Parser(private val tokens: List<Token>) {
     }
 
     /**
+     * Method parses unary operations
+     *
+     * @param unaryOperators the list of unary operators
+     */
+    private fun parseUnary(unaryOperators: List<TokenType>): UnaryOperatorNode {
+        val operator = require(unaryOperators)
+        val operand = parseFormula()
+        return UnaryOperatorNode(operator, operand)
+    }
+
+    /**
      * The method parses variables, numbers or functions
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @throws CannotParseException if the expression couldn't be parsed
      */
     private fun parseVarOrNumOrFunOrBra(): ASTNode {
-        val varOrNumOrFun = require(listOf(Identifier(), IntNumber(), FloatNumber()))
+        val varOrNumOrFun = require(listOf(Identifier(), IntNumber(), FloatNumber(), LBracket()))
 
         return when(varOrNumOrFun.type) {
             is Identifier -> variableExist(varOrNumOrFun)
@@ -98,14 +109,14 @@ class Parser(private val tokens: List<Token>) {
      * @return the root node of this expression
      */
     private fun parseFormula(): ASTNode {
-        // The parsing starts after '|'
-        // a = |9
-        // a = |90 + 1029
-        // a = |(1312 - 232) + 123
-
         val operators = ArithmeticOperator.types.subList(1, ArithmeticOperator.types.size - 1)
+        val unaryOperators = listOf(Plus(), Minus())
 
-        var leftOperand = parseVarOrNumOrFunOrBra()
+        var leftOperand = if (match(unaryOperators) != null)
+            parseUnary(unaryOperators)
+        else
+            parseVarOrNumOrFunOrBra()
+
         while (match(operators) != null) {
             val operator = require(operators)
             val rightOperand = parseVarOrNumOrFunOrBra()
