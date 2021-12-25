@@ -3,6 +3,7 @@ package lexer
 import exceptions.lexerExceptions.*
 import org.reflections.Reflections
 import tokens.*
+import tokens.annotations.*
 
 /**
  * The class representing the lexical analyzer of the C+- language.
@@ -20,17 +21,30 @@ class Lexer {
     private val allTokens: MutableList<TokenType>
     init {
         val reflections = Reflections("tokens")
-        val temp = reflections.getTypesAnnotatedWith(PossibleToken::class.java).toList()
-
         allTokens = mutableListOf()
-        for (class_ in temp) {
-            allTokens.add(class_.getConstructor().newInstance() as TokenType)
-        }
+
+        var temp = reflections.getTypesAnnotatedWith(Keyword::class.java).toList()
+        addTokens(temp)
+
+        temp = reflections.getTypesAnnotatedWith(Lexeme::class.java).toList()
+        addTokens(temp)
 
         // Swap FloatNumber and IntNumber places
-        val float = allTokens.indexOf(FloatNumber())
-        val int = allTokens.indexOf(IntNumber())
-        allTokens[float] = allTokens[int].also { allTokens[int] = allTokens[float] }
+        val floatIndex = allTokens.indexOf(FloatNumber())
+        val intIndex = allTokens.indexOf(IntNumber())
+        if (floatIndex > intIndex)
+            allTokens[floatIndex] = allTokens[intIndex].also { allTokens[intIndex] = allTokens[floatIndex] }
+    }
+
+    /**
+     * A method that adds classes found by reflection to the general list of tokens
+     *
+     * @param toAdd the list of token types to add
+     */
+    private fun addTokens(toAdd: List<Class<*>>) {
+        for (elem in toAdd) {
+            allTokens.add(elem.getConstructor().newInstance() as TokenType)
+        }
     }
 
     /**
