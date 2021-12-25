@@ -11,7 +11,7 @@ import tokens.Print
  * @property listOfVariables the list contains the all variables in the program
  * @property javaCode Java code equivalent to AST
  */
-class JavaCodeGenerator() {
+class JavaCodeGenerator {
     private val listOfVariables: MutableList<VariableNode> = mutableListOf()
     private val javaCode = StringBuilder()
 
