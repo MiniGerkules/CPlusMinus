@@ -1,6 +1,6 @@
 package parser
 
-import exceptions.parserExceptions.AllTokensProcessedException
+import exceptions.parserExceptions.*
 import parser.ast.*
 import tokens.*
 
@@ -41,7 +41,7 @@ class Parser(private val tokens: List<Token>) {
      * The method is checks the current token type to coincide with
      * possible token types
      *
-     * @throws IllegalArgumentException if the required token type wasn't found
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @throws AllTokensProcessedException if [currentIndex] > the size of [tokens]
      *
      * @return returns the required token and increases [currentIndex] by 1
@@ -52,7 +52,7 @@ class Parser(private val tokens: List<Token>) {
             ++currentIndex
             return result
         } else {
-            throw IllegalArgumentException("Error!!! Expected: $possibleTokenTypes " +
+            throw RequiredTokenNotFoundException("Error!!! Expected: $possibleTokenTypes " +
                 "actual: ${tokens[currentIndex].type} on position ${tokens[currentIndex].position}")
         }
     }
