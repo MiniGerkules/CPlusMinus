@@ -1,5 +1,8 @@
 package tokens
 
+import tokens.annotations.Keyword
+import tokens.annotations.Lexeme
+
 /**
  * Class describing the type of token <IntNumber&gt
  *
@@ -8,7 +11,7 @@ package tokens
  * from 0 to 9
  * Examples of numbers: 100; -100; -0; +0.
  */
-@PossibleToken
+@Lexeme
 class IntNumber : TokenType() {
     override val regex: Regex = Regex("([-+]?\\s*([1-9]\\d*|0))")
 }
@@ -24,7 +27,7 @@ class IntNumber : TokenType() {
  * -0.00000000; +0.00000000; - 0.5
  * Examples of non-numbers: 0000.00
  */
-@PossibleToken
+@Lexeme
 class FloatNumber : TokenType() {
     override val regex: Regex = Regex("([+-]?\\s*((0\\.\\d+)|([1-9]\\d*\\.\\d+)))")
 }
@@ -36,9 +39,9 @@ class FloatNumber : TokenType() {
  * Correct examples: 'a', '1', '(', '*', '%'
  * Incorrect examples: a, 'abc', 1
  */
-@PossibleToken
+@Lexeme
 class CharValue : TokenType() {
-    override val regex: Regex = Regex("'(\\.)'")
+    override val regex: Regex = Regex("'(.)'")
 }
 
 /**
@@ -47,9 +50,9 @@ class CharValue : TokenType() {
  * Char value is a single symbol allocated between two single quotes
  * Examples: "Hello, World!", "12345"
  */
-@PossibleToken
+@Lexeme
 class StringValue : TokenType() {
-    override val regex: Regex = Regex("\"(\\.*)\"")
+    override val regex: Regex = Regex("\"(.*)\"")
 }
 
 /**
@@ -64,7 +67,7 @@ class StringValue : TokenType() {
  * Correct: firstNumber, Second_number, _third_, four4, five5five
  * Incorrect: 1first, second.number
  */
-@PossibleToken
+@Lexeme
 class Identifier : TokenType() {
     override val regex: Regex = Regex("([_a-zA-Z])\\w*")
 }
@@ -75,7 +78,7 @@ class Identifier : TokenType() {
  *
  * Example: FloatNumber a = 1.0;
  */
-@PossibleToken
+@Lexeme
 class ExpEnd : TokenType() {
     override val regex: Regex = Regex(";")
 }
@@ -87,7 +90,7 @@ class ExpEnd : TokenType() {
  * well as to increase the readability of the code.
  * Correct: ' ', '\t', '\n'
  */
-@PossibleToken
+@Lexeme
 class Space : TokenType() {
     override val regex: Regex = Regex("[ \t\n]+")
 }
@@ -98,7 +101,7 @@ class Space : TokenType() {
  * print writes in console the value of needing variable or a string
  * Example: print(a);
  */
-@PossibleToken
+@Keyword
 class Print : TokenType() {
     override val regex: Regex = Regex("print")
 }
@@ -110,7 +113,7 @@ class Print : TokenType() {
  * number, expression etc.
  * Example: return 0;
  */
-@PossibleToken
+@Keyword
 class Return : TokenType() {
     override val regex: Regex = Regex("return")
 }
@@ -121,7 +124,7 @@ class Return : TokenType() {
  * The '=' symbol is used to assign a value to a variable.
  * Example: int32 a = 5;
  */
-@PossibleToken
+@Lexeme
 class Assign : ArithmeticOperator() {
     override val regex: Regex = Regex("=")
 }
@@ -134,7 +137,7 @@ class Assign : ArithmeticOperator() {
  * Example 1: int32 a = 1232 + 32314;
  * Example 1: int32 a = +7;
  */
-@PossibleToken
+@Lexeme
 class Plus : ArithmeticOperator() {
     override val regex: Regex = Regex("\\+")
 }
@@ -147,7 +150,7 @@ class Plus : ArithmeticOperator() {
  * Example 1: int32 a = 1232 - 32314;
  * Example 2: int32 a = -5;
  */
-@PossibleToken
+@Lexeme
 class Minus : ArithmeticOperator() {
     override val regex: Regex = Regex("-")
 }
@@ -158,7 +161,7 @@ class Minus : ArithmeticOperator() {
  * The '+' character is used to subtract valid C+- expressions.
  * Example 1: int32 a = 5 * 3;
  */
-@PossibleToken
+@Lexeme
 class Multiply : ArithmeticOperator() {
     override val regex: Regex = Regex("\\*")
 }
@@ -169,7 +172,7 @@ class Multiply : ArithmeticOperator() {
  * The '/' character is used to subtract valid C+- expressions.
  * Example 1: int32 a = 6 / 2;
  */
-@PossibleToken
+@Lexeme
 class Divide : ArithmeticOperator() {
     override val regex: Regex = Regex("/")
 }
@@ -180,7 +183,7 @@ class Divide : ArithmeticOperator() {
  * The '%' character is used to subtract valid C+- expressions.
  * Example 1: int32 a = 5 % 3;
  */
-@PossibleToken
+@Lexeme
 class Modulus : ArithmeticOperator() {
     override val regex: Regex = Regex("%")
 }
@@ -191,7 +194,7 @@ class Modulus : ArithmeticOperator() {
  * The '!' character is used to represent a not- expression.
  * Example 1: if (i != 0) { action };
  */
-@PossibleToken
+@Lexeme
 class Not : LogicalOperator() {
     override val regex: Regex = Regex("!")
 }
@@ -202,7 +205,7 @@ class Not : LogicalOperator() {
  * The '>' character is used to represent a comparing expression.
  * Example 1: if (i > 0) { action };
  */
-@PossibleToken
+@Lexeme
 class MoreThan : LogicalOperator() {
     override val regex: Regex = Regex(">")
 }
@@ -213,7 +216,7 @@ class MoreThan : LogicalOperator() {
  * The '<' character is used to represent a comparing expression.
  * Example 1: if (i < 0) { action };
  */
-@PossibleToken
+@Lexeme
 class LessThan : LogicalOperator() {
     override val regex: Regex = Regex("<")
 }
@@ -224,7 +227,7 @@ class LessThan : LogicalOperator() {
  * The '&&' character is used to represent a conjunction.
  * Example 1: if ((i < 0) && (i != 1)) { action };
  */
-@PossibleToken
+@Lexeme
 class And : LogicalOperator() {
     override val regex: Regex = Regex("&&")
 }
@@ -235,7 +238,7 @@ class And : LogicalOperator() {
  * The '<' character is used to represent a disjuncture.
  * Example 1: if ((i < 0) || (i != 1)) { action };
  */
-@PossibleToken
+@Lexeme
 class Or : LogicalOperator() {
     override val regex: Regex = Regex("\\|\\|")
 }
@@ -246,7 +249,7 @@ class Or : LogicalOperator() {
  * void is a function type that returns nothing.
  * Example 1: void helloWorld();
  */
-@PossibleToken
+@Keyword
 class Void : PrimitiveType() {
     override val regex: Regex = Regex("void")
 }
@@ -257,7 +260,7 @@ class Void : PrimitiveType() {
  * int32 is a 4 bytes integer number.
  * Example 1: int32 a = 5 % 3;
  */
-@PossibleToken
+@Keyword
 class Int32 : PrimitiveType() {
     override val regex: Regex = Regex("int32")
 }
@@ -268,7 +271,7 @@ class Int32 : PrimitiveType() {
  * float32 is a 4 bytes floating point number.
  * Example 1: float32 a = 0.003;
  */
-@PossibleToken
+@Keyword
 class Float32 : PrimitiveType() {
     override val regex: Regex = Regex("float32")
 }
@@ -279,7 +282,7 @@ class Float32 : PrimitiveType() {
  * char is a 1 byte character.
  * Example 1: char a = 'a';
  */
-@PossibleToken
+@Keyword
 class Char : PrimitiveType() {
     override val regex: Regex = Regex("char")
 }
@@ -290,7 +293,7 @@ class Char : PrimitiveType() {
  * Left bracket means that the expression inside starts.
  * Example 1: if (a == b);
  */
-@PossibleToken
+@Lexeme
 class LBracket : TokenType() {
     override val regex: Regex = Regex("\\(")
 }
@@ -301,7 +304,7 @@ class LBracket : TokenType() {
  * Left bracket means that the expression inside ends.
  * Example 1: if (a == b);
  */
-@PossibleToken
+@Lexeme
 class RBracket : TokenType() {
     override val regex: Regex = Regex("\\)")
 }
@@ -312,7 +315,7 @@ class RBracket : TokenType() {
  * This Bracket type means that block of code is started
  * Example 1: if (a == b) { action };
  */
-@PossibleToken
+@Lexeme
 class StartBlock : TokenType() {
     override val regex: Regex = Regex("\\{")
 }
@@ -323,7 +326,7 @@ class StartBlock : TokenType() {
  * This Bracket type means that block of code is finished
  * Example 1: if (a == b) { action };
  */
-@PossibleToken
+@Lexeme
 class EndBlock : TokenType() {
     override val regex: Regex = Regex("}")
 }
@@ -334,7 +337,7 @@ class EndBlock : TokenType() {
  * if is a condition check
  * Example 1: if (a == b) { action };
  */
-@PossibleToken
+@Keyword
 class If : TokenType() {
     override val regex: Regex = Regex("if")
 }
@@ -345,7 +348,7 @@ class If : TokenType() {
  * else is another way if condition doesn't meet the condition
  * Example 1: if (a == b) { action } else { other action };
  */
-@PossibleToken
+@Keyword
 class Else : TokenType() {
     override val regex: Regex = Regex("else")
 }
@@ -356,7 +359,7 @@ class Else : TokenType() {
  * while is a loop that goes until the end of condition
  * Example 1: while (i != 0) { action };
  */
-@PossibleToken
+@Keyword
 class While : TokenType() {
     override val regex: Regex = Regex("while")
 }
@@ -368,7 +371,7 @@ class While : TokenType() {
  * but with starting number and a given step
  * Example 1: for (i = 0; i < 10; i = i + 1) { action };
  */
-@PossibleToken
+@Keyword
 class For : TokenType() {
     override val regex: Regex = Regex("for")
 }
