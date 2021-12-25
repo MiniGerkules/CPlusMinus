@@ -73,13 +73,18 @@ class Parser(private val tokens: List<Token>) {
      *
      * @throws IllegalArgumentException if the expression couldn't be parsed
      */
-    private fun parseVarOrNumOrFun(): ASTNode {
+    private fun parseVarOrNumOrFunOrBra(): ASTNode {
         val varOrNumOrFun = require(listOf(Identifier(), IntNumber(), FloatNumber()))
 
         return when(varOrNumOrFun.type) {
             is Identifier -> variableExist(varOrNumOrFun)
             is IntNumber -> NumberNode(varOrNumOrFun)
             is FloatNumber -> NumberNode(varOrNumOrFun)
+            is LBracket -> {
+                val node = parseFormula()
+                require(listOf(RBracket()))
+                node
+            }
             else -> throw IllegalArgumentException("Error! Can't parse expression!") // Unreachable code
         }
     }
@@ -89,17 +94,22 @@ class Parser(private val tokens: List<Token>) {
      *
      * @return the root node of this expression
      */
-    private fun parseFormula(): BinaryOperationNode {
+    private fun parseFormula(): ASTNode {
         // The parsing starts after '|'
         // a = |9
         // a = |90 + 1029
         // a = |(1312 - 232) + 123
 
-        val leftOperand = parseVarOrNumOrFun()
-        val operator = require(ArithmeticOperator.types.subList(1, ArithmeticOperator.types.size - 1))
-        val rightOperand = parseVarOrNumOrFun()
+        val operators = ArithmeticOperator.types.subList(1, ArithmeticOperator.types.size - 1)
 
-        return BinaryOperationNode(operator, leftOperand, rightOperand)
+        var leftOperand = parseVarOrNumOrFunOrBra()
+        while (match(operators) != null) {
+            val operator = require(operators)
+            val rightOperand = parseVarOrNumOrFunOrBra()
+            leftOperand = BinaryOperationNode(operator, leftOperand, rightOperand)
+        }
+
+        return leftOperand
     }
 
     /**
