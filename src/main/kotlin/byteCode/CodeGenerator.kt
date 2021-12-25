@@ -33,8 +33,8 @@ class CodeGenerator {
      * @param root the root of the AST
      */
     fun makeProgram(root: MainFunNode) {
-        val javaGenerator = JavaCodeGenerator(root)
-        javaGenerator.generate()
+        val javaGenerator = JavaCodeGenerator()
+        javaGenerator.generate(root)
 
         val main = program.getMethod("main", "(Ljava/lang/String[];)V")
         main.setBody(javaGenerator.getCode())
