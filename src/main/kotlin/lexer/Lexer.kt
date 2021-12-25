@@ -2,10 +2,7 @@ package lexer
 
 import exceptions.lexerExceptions.*
 import org.reflections.Reflections
-import tokens.PossibleToken
-import tokens.Space
-import tokens.Token
-import tokens.TokenType
+import tokens.*
 
 /**
  * The class representing the lexical analyzer of the C+- language.
@@ -15,10 +12,11 @@ import tokens.TokenType
  * @property currentPosition the current position of the lexer in the code
  * @property allTokens list of all possible language tokens
  */
-class Lexer() {
+class Lexer {
     private var tokensList: MutableList<Token> = mutableListOf()
     private var currentCodeLine: String = ""
     private var currentPosition: Int = 0
+    private var numberOfLines = 0
     private val allTokens: MutableList<TokenType>
     init {
         val reflections = Reflections("tokens")
@@ -28,30 +26,19 @@ class Lexer() {
         for (class_ in temp) {
             allTokens.add(class_.getConstructor().newInstance() as TokenType)
         }
-    }
 
-    // API for possible future use
-    /**
-     * The method shows if there are processed tokens that can be received
-     *
-     * @return true if there are tokens else false
-     */
-    fun haveTokens(): Boolean = tokensList.isNotEmpty()
-
-    /**
-     * The method clears the list of tokens
-     */
-    fun clearTokens() {
-        tokensList.clear()
+        // Swap FloatNumber and IntNumber places
+        val float = allTokens.indexOf(FloatNumber())
+        val int = allTokens.indexOf(IntNumber())
+        allTokens[float] = allTokens[int].also { allTokens[int] = allTokens[float] }
     }
-    // End of API
 
     /**
      * The method returns all processed tokens
      *
      * @return all processed tokens except [Space]
      */
-    fun getTokens(): List<Token> = tokensList.filter { it.type::class != Space::class }.toList()
+    fun getTokens(): List<Token> = tokensList.filter { it.type != Space() }.toList()
 
     /**
      * The method parses the code from the file from the file.
@@ -59,8 +46,9 @@ class Lexer() {
      * @param codeLine line of code to be split into tokens
      */
     fun lexicalAnalysis(codeLine: String) {
-        currentCodeLine = codeLine
+        currentCodeLine = codeLine.trim()
         currentPosition = 0
+        ++numberOfLines
 
         while (hasToken())
             nextToken()
@@ -90,6 +78,7 @@ class Lexer() {
             }
         }
 
-        throw UnableToRecognizeTokenException("The error was detected at position $currentPosition!")
+        throw UnableToRecognizeTokenException("The error is seen on line $numberOfLines at position $currentPosition!" +
+                "\n$currentCodeLine\n" + " ".repeat(currentPosition) + "^")
     }
 }
