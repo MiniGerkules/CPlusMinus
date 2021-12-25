@@ -36,7 +36,7 @@ class CodeGenerator {
         val javaGenerator = JavaCodeGenerator()
         javaGenerator.generate(root)
 
-        val main = program.getMethod("main", "(Ljava/lang/String[];)V")
+        val main = program.getMethod("main", "([Ljava/lang/String;)V")
         main.setBody(javaGenerator.getCode())
     }
 }
