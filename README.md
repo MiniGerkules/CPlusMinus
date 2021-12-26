@@ -12,12 +12,12 @@ The C+- programming language should:
 * Support a static type system and a procedural programming paradigm.
 * Support all basic arithmetic operations.
 * Support conditional statements.
-* Support <for> and <while> loops.
+* Support \<for> and \<while> loops.
 
 ## Realized opportunities
 At the moment, the language has implemented:
-* Declaring variables of type int32 and float32
-* Simple assignment operations, on the right side of which there must be necessarily two numbers, or a number and a 
-variable, or two variables linked by an arithmetic sign.
-
-At the end of the program, all variables, their types and their values are displayed.
+* Declaring variables of type int32 and float32.
+* Variable initialization.
+* Arithmetic operations of the same priority.
+* Ability to display symbols, strings, values of arithmetic operations
+and variables.
