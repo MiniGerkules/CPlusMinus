@@ -4,3 +4,8 @@ int32 b;
 a = a * 5 * 7;
 b = 7 - 11 + 35 + 4;
 a = a / b;
+
+print("\nThe var a = ");
+print(a);
+
+print('\n');
