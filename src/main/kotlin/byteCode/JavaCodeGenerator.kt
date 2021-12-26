@@ -23,7 +23,7 @@ class JavaCodeGenerator {
     /**
      * The method that generates code to display the values of all variables in a program
      */
-    private fun printAllVariables() {
+    private fun debugPrintAllVariables() {
         javaCode.append("System.out.print(\"\\n\\n\");")
         for (variable in listOfVariables) {
             val codeToAdd = "System.out.print(\"The variable ${variable.variable.text} has type " +
@@ -40,7 +40,7 @@ class JavaCodeGenerator {
     fun generate(root: MainFunNode) {
         javaCode.append("{\n")
         recursiveGenerate(root)
-        printAllVariables()
+        //debugPrintAllVariables()
         javaCode.append('}')
     }
 
