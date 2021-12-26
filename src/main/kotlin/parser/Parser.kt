@@ -33,7 +33,9 @@ class Parser(private val tokens: List<Token>) {
             else
                 null
         } else {
-            throw AllTokensProcessedException("All tokens processed!!!")
+            throw AllTokensProcessedException("All tokens processed! " +
+                    "An $possibleTokenTypes token types was required, but all tokens" +
+                    "have already been processed!")
         }
     }
 
@@ -70,6 +72,8 @@ class Parser(private val tokens: List<Token>) {
 
     /**
      * Method parses unary operations
+     *
+     * @throws CannotParseException if the expression could not be parsed
      *
      * @param unaryOperators the list of unary operators
      */
@@ -143,22 +147,25 @@ class Parser(private val tokens: List<Token>) {
     }
 
     /**
+     * Method parses a string or character
+     */
+    private fun parseStringOrChar(): StringNode {
+        val stringOrChar = require(listOf(StringValue(), CharValue()))
+        return StringNode(stringOrChar)
+    }
+
+    /**
      * The method parses the expression that should to display
      *
      * @throws RequiredTokenNotFoundException if the required token type wasn't found
-     * @throws CannotParseException if the expression couldn't be parsed
      * @param printOperator the token describing the output to the screen
      */
     private fun parsePrint(printOperator: Token) {
-        val identifier = require(listOf(Identifier(), IntNumber(), FloatNumber()))
-
         require(listOf(LBracket()))
-        val node: ASTNode = when(identifier.type) {
-            is Identifier -> allVariables.find { it.variable.text == identifier.text }
-            is IntNumber -> NumberNode(identifier)
-            is FloatNumber -> NumberNode(identifier)
-            else -> null
-        } ?: throw CannotParseException("Error! Can't parse PRINT expression!")
+        val node: ASTNode = if (match(listOf(StringValue(), CharValue())) != null)
+            parseStringOrChar()
+        else
+            parseFormula()
         require(listOf(RBracket()))
 
         rootNode.addNode(UnaryOperatorNode(printOperator, node))
@@ -167,8 +174,9 @@ class Parser(private val tokens: List<Token>) {
     /**
      * The method parses the definition of a variable or function
      *
-     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      * @throws CannotParseException if the expression could not be parsed
+     *
+     * @throws RequiredTokenNotFoundException if the required token type wasn't found
      */
     private fun parseDeclaration(type: Token) {
         val identifier = require(listOf(Identifier()))
