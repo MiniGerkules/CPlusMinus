@@ -41,7 +41,7 @@ class FloatNumber : TokenType() {
  */
 @Lexeme
 class CharValue : TokenType() {
-    override val regex: Regex = Regex("'(.)'")
+    override val regex: Regex = Regex("'([^\\\\]|\\\\[\\w\\\\])'")
 }
 
 /**
